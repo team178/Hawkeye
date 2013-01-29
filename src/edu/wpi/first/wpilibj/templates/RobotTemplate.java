@@ -28,14 +28,14 @@ import org.usfirst.frc178.Tower;
 public class RobotTemplate extends IterativeRobot
 {
 	//Controls
-	private Joystick joystick;
-	private Joystick joystickAux;
-	private Joystick joystickKiddy;
-	private EnhancedIOFHS enhancedIO;
+	private Joystick joystick;      //main joystick
+	private Joystick joystickAux;   //Aux joystick
+	private Joystick joystickKiddy; //Kiddie Joystick - not full speed.
+	private EnhancedIOFHS enhancedIO; //Auxbox
 
 	//Driverstation
-	private DriverStation driverStation;
-	private DashboardHigh dashboardHigh;
+	private DriverStation driverStation;    //sends things to the lower driverstation
+	private DashboardHigh dashboardHigh;    //sends things to the upper driverstation
 
 	//Movement
 	private Drivetrain drivetrain;
@@ -98,7 +98,8 @@ public class RobotTemplate extends IterativeRobot
 	public void autonomousPeriodic()
 	{
 
-		/*
+/*          //old autonomus (2012) Rebound Rumble
+
 		double range = sensors.getUltrasonicRight().getRangeInches();
 		System.out.println(range);
 		double robo_speed_far = 0.3;
