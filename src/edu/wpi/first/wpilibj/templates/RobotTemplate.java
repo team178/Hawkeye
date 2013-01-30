@@ -195,7 +195,7 @@ public class RobotTemplate extends IterativeRobot
 		{
 			tower.setShooterMotors(0.0);
 			tower.setBallElevator(0.0);
-			/*drivetrain.rearLeftSet(-0.35);
+                      /*drivetrain.rearLeftSet(-0.35);
 			drivetrain.rearRightSet(0.42);
 			drivetrain.frontLeftSet(-0.35);
 			drivetrain.frontRightSet(0.42);
