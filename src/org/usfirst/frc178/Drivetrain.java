@@ -79,7 +79,7 @@ public class Drivetrain {
 			robotX = -joystickKiddy.getX();
 			robotY = -joystickKiddy.getY();
 			robotZ = -joystickKiddy.getTwist();
-			speed = 0.35; //Kiddie code: 0.35
+			speed = 1.0; //Kiddie code: 0.35
 		}
 
 		if (joystick.getRawButton(2)) {
@@ -87,16 +87,17 @@ public class Drivetrain {
 			System.out.println("Hi, Going at half-speed. Whoooo!"); //Nice, Pat :)
 		}
                 //  Omniwheel Drive
-		frontLeft.set(-(robotZ * speed * 1/3) + (robotY * speed) - (robotX * speed));
+	  /*    frontLeft.set(-(robotZ * speed * 1/3) + (robotY * speed) - (robotX * speed));
 		rearLeft.set(-(robotZ * speed * 1/3) + (robotY * speed) + (robotX * speed));
 		frontRight.set(-(robotZ * speed * 1/3) - (robotY * speed) - (robotX * speed));
 		rearRight.set(-(robotZ * speed *1/3) - (robotY * speed) + (robotX * speed));
-                //  4-Wheel Tank Drive
-            /*  frontLeft.set(-(robotZ * speed * 1/3) + (robotY * speed) - (robotX * speed));
-                rearLeft.set(-(robotZ * speed * 1/3) + (robotY * speed) + (robotX * speed));
-                frontRight.set(-(robotZ * speed * 1/3) - (robotY * speed) - (robotX * speed));
-                rearRight.set(-(robotZ * speed *1/3) - (robotY * speed) + (robotX * speed));
-            */
+            */ 
+            //  4-Wheel Tank Drive  Removed "-(robotZ * speed *1/3) +-" references in copy of omni code
+          /**/  frontLeft.set((robotY * speed) + (robotX * speed));
+                rearLeft.set((robotY * speed) + (robotX * speed));
+                frontRight.set((robotY * speed) - (robotX * speed));
+                rearRight.set((robotY * speed) - (robotX * speed));
+          /**/
          }
 
 	public void frontLeftSet(double value) //Sets the front left Victor
