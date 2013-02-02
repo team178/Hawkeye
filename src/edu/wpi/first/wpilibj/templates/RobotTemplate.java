@@ -163,6 +163,7 @@ public class RobotTemplate extends IterativeRobot
 			drivetrain.rearRightSet(0.0);
 	}
 */
+
 		if(autoFist)
 		{
 			autoFist = false;
