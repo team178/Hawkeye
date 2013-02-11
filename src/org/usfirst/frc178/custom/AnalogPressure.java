@@ -11,7 +11,7 @@ public class AnalogPressure
 
 	public AnalogPressure()
 	{
-		this.analogPressure = new AnalogPressure(4);	//Analog port 4
+		this.analogPressure = new AnalogChannel(4);	//Analog port 4
 	}
 
 	public double getVoltage()
