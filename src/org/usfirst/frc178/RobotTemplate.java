@@ -3,11 +3,10 @@ package org.usfirst.frc178;
 import org.usfirst.frc178.components.Shooter;
 import org.usfirst.frc178.components.Drivetrain;
 import org.usfirst.frc178.devices.*;
+import org.usfirst.frc178.devices.Motors;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.IterativeRobot;
-
-import org.usfirst.frc178.devices.Motors;
 
 public class RobotTemplate extends IterativeRobot  {
 	DriverStationLCD dsout;
