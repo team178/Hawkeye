@@ -18,7 +18,7 @@ public class Motors
         frontRight = new Victor(1){public void set(double d){super.set(d * robotSpeed);}}; //PWM port 1
         backRight = new Victor(2){public void set(double d){super.set(d * robotSpeed);}}; //PWM port 2
         frontLeft = new Victor(3){public void set(double d){super.set(d * robotSpeed);}}; //PWM port 3
-	backLeft = new Victor(4){public void set(double d){super.set(d * robotSpeed);}}; //PWM port 4	
+		backLeft = new Victor(4){public void set(double d){super.set(d * robotSpeed);}}; //PWM port 4	
         shooterOne = new Victor(5);
         shooterTwo = new Victor(6);
         feederServo = new Servo(7);

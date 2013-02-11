@@ -12,7 +12,7 @@ public class Shooter
 	private Motors motors;
     private Sensors sensors;
     private HumanControl humanControl;
-    
+
     public Shooter(Motors motors, Sensors sensors, HumanControl humanControl, Pneumatics pneumatics)
     {
         this.pneumatics = pneumatics;
@@ -35,10 +35,10 @@ public class Shooter
     
     public void shooterStart()
     {
-        motors.shooterOne.set(1.0);
-        motors.shooterTwo.set(1.0);
+		motors.shooterOne.set(1.0);
+		motors.shooterTwo.set(1.0);
     }
-    
+
     public void shooterStop()
     {
         motors.shooterOne.set(0.0);
