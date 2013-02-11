@@ -2,47 +2,53 @@ package org.usfirst.frc178.components;
 
 import org.usfirst.frc178.devices.*;
 
-public class Drivetrain 
-{
-        private Motors motors;
-        private HumanControl humanControl;
+public class Drivetrain  {
+
+	private Motors motors;
+	private HumanControl humanControl;
 
 	double robotX, robotY, robotZ, speed;
 
-	public Drivetrain(Motors motors, HumanControl humanControl) 
-        {
+	public Drivetrain(Motors motors, HumanControl humanControl) {
 		this.motors = motors;
-                this.humanControl = humanControl;
+		this.humanControl = humanControl;
 	}
+
 	/**
 	 * Gets the front left motor speed
 	 */
-	public double getFrontLeft()
-	{
+	public double getFrontLeft() {
 		return motors.frontLeft.get();
 	}
 
-	public double getFrontRight() //Gets the front right motor speed
-	{
+	/**
+	 * Gets the front right motor speed
+	 */
+	public double getFrontRight() {
 		return motors.frontRight.get();
 	}
 
-	public double getBackLeft() //Gets the back left motor speed
-	{
+	/**
+	 * Gets the back left motor speed
+	 */
+	public double getBackLeft() {
 		return motors.backLeft.get();
 	}
 
-	public double getBackRight() //Gets the back right motor speed
-	{
+	/**
+	 * Gets the back right motor speed
+	 */
+	public double getBackRight() {
 		return motors.backRight.get();
 	}
 
-	public void drive() //Drives the robot
-	{
+	/**
+	 * Drives the robot
+	 */
+	public void drive() {
 		robotX = -humanControl.joystickMain.getX();
 		robotY = -humanControl.joystickMain.getY();
 		robotZ = -humanControl.joystickMain.getTwist();
-
 
 		motors.frontLeft.set(-(robotX) + (robotY)); // (-(Rotate) + (Forward Speed))
 		motors.backLeft.set(-(robotX) + (robotY)); // (-(Rotate) + (Forward Speed))
@@ -50,28 +56,38 @@ public class Drivetrain
 		motors.backRight.set(-(robotX) - (robotY)); // (-(Rotate) + (Forward Speed))
 	}
 
-	public void frontLeftSet(double value) //Sets the front left Victor
-	{
+	/**
+	 * Sets the front left Victor
+	 */
+	public void frontLeftSet(double value) {
 		motors.frontLeft.set(value);
 	}
 
-	public void backLeftSet(double value) //Sets the back left Victor
-	{
+	/**
+	 * Sets the back left Victor
+	 */
+	public void backLeftSet(double value) {
 		motors.backLeft.set(value);
 	}
 
-	public void frontRightSet(double value) //Sets the front right Victor
-	{
-                motors.frontRight.set(value);
+	/**
+	 * Sets the front right Victor
+	 */
+	public void frontRightSet(double value) {
+		motors.frontRight.set(value);
 	}
 
-	public void backRightSet(double value) //Sets the back right Victor
-	{
-                motors.backRight.set(value);
+	/**
+	 * Sets the back right Victor
+	 */
+	public void backRightSet(double value) {
+		motors.backRight.set(value);
 	}
 
-	public void setDiminishedSpeed(double fraction) //Sets the robot speed
-	{
+	/**
+	 * Sets the robot speed
+	 */
+	public void setDiminishedSpeed(double fraction) {
 		motors.frontLeft.set(getFrontLeft() * fraction);
 		motors.backLeft.set(getBackLeft() * fraction);
 		motors.frontRight.set(getFrontRight() * fraction);
