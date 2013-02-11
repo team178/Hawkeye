@@ -16,6 +16,7 @@ public class RobotTemplate extends IterativeRobot  {
 	private Drivetrain drivetrain;
 	private Shooter shooter;
 
+	private Pneumatics pneumatics;
 	private Sensors sensors;
 	private Motors motors;
 	private HumanControl humanControl;
@@ -26,12 +27,13 @@ public class RobotTemplate extends IterativeRobot  {
 		driverStation = DriverStation.getInstance();
 		//dashboardHigh = new DashboardHigh();
 
+		pneumatics = new Pneumatics();
 		motors = new Motors();
 		sensors = new Sensors();
 		humanControl = new HumanControl();
 
 		drivetrain = new Drivetrain(motors,humanControl);
-		shooter = new Shooter(motors,sensors,humanControl);
+		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
 
 		dsout = DriverStationLCD.getInstance();
 		dsout.updateLCD();

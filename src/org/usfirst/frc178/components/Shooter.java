@@ -8,13 +8,15 @@ import org.usfirst.frc178.*;
  */
 public class Shooter 
 {
-    private Motors motors;
+    private Pneumatics pneumatics;
+	private Motors motors;
     private Sensors sensors;
     private HumanControl humanControl;
     
-    public Shooter(Motors motors, Sensors sensors, HumanControl humanControl)
+    public Shooter(Motors motors, Sensors sensors, HumanControl humanControl, Pneumatics pneumatics)
     {
-        this.motors = motors;
+        this.pneumatics = pneumatics;
+		this.motors = motors;
         this.sensors = sensors;
         this.humanControl = humanControl;
     }
@@ -42,4 +44,5 @@ public class Shooter
         motors.shooterOne.set(0.0);
         motors.shooterTwo.set(0.0);
     }
+	
 }
