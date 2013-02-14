@@ -8,14 +8,39 @@ import edu.wpi.first.wpilibj.AnalogChannel;
  */
 public class Photosensor 
 {
-    private AnalogChannel analog;
+    private AnalogChannel analogInput;
+	private double threshold;
     
-    public Photosensor(int channel)
+    public Photosensor(int channel, double threshold)
     {
-        analog = new AnalogChannel(channel);
+        analogInput = new AnalogChannel(channel);
+		this.threshold = threshold;
     }
-    public Photosensor(int module, int channel)
+    public Photosensor(int module, int channel, double threshold)
     {
-        analog = new AnalogChannel(module, channel);
+        analogInput = new AnalogChannel(module, channel);
+		this.threshold = threshold;
     }
+	
+	public boolean sense()
+	{
+		if(analogInput.getVoltage() < this.threshold)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public double getVoltage()
+	{
+		return analogInput.getVoltage();
+	}
+	
+	public int getValue()
+	{
+		return analogInput.getValue();
+	}
 }

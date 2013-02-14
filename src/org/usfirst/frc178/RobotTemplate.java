@@ -34,6 +34,8 @@ public class RobotTemplate extends IterativeRobot  {
 		drivetrain = new Drivetrain(motors,humanControl);
 		shooter = new Shooter(motors,sensors,humanControl);
 
+		//coprocessor = new TCPClient("10.1.78.24", '178');
+
 		dsout = DriverStationLCD.getInstance();
 		dsout.updateLCD();
 
@@ -52,7 +54,7 @@ public class RobotTemplate extends IterativeRobot  {
 	 */
 	public void teleopPeriodic() {
 		drivetrain.drive();
-		shooter.shoot();
+		shooter.run();
 		watchdog.feed();
 	}
 

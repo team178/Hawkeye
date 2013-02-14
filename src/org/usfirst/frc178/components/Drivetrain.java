@@ -44,10 +44,10 @@ public class Drivetrain
 		robotZ = -humanControl.joystickMain.getTwist();
 
 
-		motors.frontLeft.set(-(robotX) + (robotY)); // (-(Rotate) + (Forward Speed))
-		motors.backLeft.set(-(robotX) + (robotY)); // (-(Rotate) + (Forward Speed))
-		motors.frontRight.set(-(robotX) - (robotY)); // (-(Rotate) + (Forward Speed))
-		motors.backRight.set(-(robotX) - (robotY)); // (-(Rotate) + (Forward Speed))
+		motors.frontLeft.set(-(robotZ) + (robotY)); // (-(Rotate) + (Forward Speed))
+		motors.backLeft.set(-(robotZ) + (robotY)); // (-(Rotate) + (Forward Speed))
+		motors.frontRight.set(-(robotZ) - (robotY)); // (-(Rotate) + (Forward Speed))
+		motors.backRight.set(-(robotZ) - (robotY)); // (-(Rotate) + (Forward Speed))
 	}
 
 	public void frontLeftSet(double value) //Sets the front left Victor
