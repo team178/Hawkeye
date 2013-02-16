@@ -22,6 +22,7 @@ public class RobotTemplate extends IterativeRobot  {
 	private HumanControl humanControl;
 
 	private Watchdog watchdog;
+	private boolean testMode= false;
 
 	public void robotInit() {
 		driverStation = DriverStation.getInstance();
@@ -40,6 +41,10 @@ public class RobotTemplate extends IterativeRobot  {
 
 		pneumatics.setBothGears(1);
 		watchdog = Watchdog.getInstance();
+		
+		if(testMode){
+			pneumatics.setBothGears(2);
+		}
 	}
 
 	/**
