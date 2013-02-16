@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 //Main and Aux controllers, etc
 package org.usfirst.frc178.devices;
 
