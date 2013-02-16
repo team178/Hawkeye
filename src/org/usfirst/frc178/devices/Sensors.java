@@ -13,8 +13,8 @@ public class Sensors
 	{
 			driveEncoderLeft = new Encoder(1,2);			//DIO ports 1,2
 			driveEncoderLeft = new Encoder(3,4);			//DIO ports 3,4
-			shooterOneEncoder = new Encoder(5,6);			//DIO ports 5,6
-			shooterTwoEncoder = new Encoder(7,8);			//DIO ports 7,8
+			//shooterOneEncoder = new Encoder(5,6);			//DIO ports 5,6
+			//shooterTwoEncoder = new Encoder(7,8);			//DIO ports 7,8
 			elevationEncoder = new Encoder(9,10);			//DIO ports 9,10
 			elevationLowSwitch = new LimitSwitch(11,true);	//DIO port 11
 			elevationHighSwitch = new LimitSwitch(12,true);	//DIO port 12

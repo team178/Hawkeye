@@ -32,12 +32,13 @@ public class RobotTemplate extends IterativeRobot  {
 		sensors = new Sensors();
 		humanControl = new HumanControl();
 
-		drivetrain = new Drivetrain(motors,humanControl);
+		drivetrain = new Drivetrain(motors,humanControl,pneumatics);
 		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
 
 		dsout = DriverStationLCD.getInstance();
 		dsout.updateLCD();
 
+		pneumatics.setBothGears(1);
 		watchdog = Watchdog.getInstance();
 	}
 

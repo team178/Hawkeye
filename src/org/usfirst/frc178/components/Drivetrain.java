@@ -6,12 +6,14 @@ public class Drivetrain  {
 
 	private Motors motors;
 	private HumanControl humanControl;
+	private Pneumatics pneumatics;
 
-	double robotX, robotY, robotZ, speed;
+	private double robotX, robotY, robotZ;
 
-	public Drivetrain(Motors motors, HumanControl humanControl) {
+	public Drivetrain(Motors motors, HumanControl humanControl,Pneumatics pneumatics) {
 		this.motors = motors;
 		this.humanControl = humanControl;
+		this.pneumatics = pneumatics;
 	}
 
 	/**
@@ -46,14 +48,23 @@ public class Drivetrain  {
 	 * Drives the robot
 	 */
 	public void drive() {
+		
+		if (humanControl.joystickMain.getRawButton(4)) { //high gear
+			pneumatics.setBothGears(2);
+		}
+		if (humanControl.joystickMain.getRawButton(3)) { //low gear
+			pneumatics.setBothGears(1);
+		}
+
 		robotX = -humanControl.joystickMain.getX();
 		robotY = -humanControl.joystickMain.getY();
-		robotZ = -humanControl.joystickMain.getTwist();
-
-		motors.frontLeft.set(-(robotZ) + (robotY)); // (-(Rotate) + (Forward Speed))
-		motors.backLeft.set(-(robotZ) + (robotY)); // (-(Rotate) + (Forward Speed))
-		motors.frontRight.set(-(robotZ) - (robotY)); // (-(Rotate) + (Forward Speed))
-		motors.backRight.set(-(robotZ) - (robotY)); // (-(Rotate) + (Forward Speed))
+		robotZ = -humanControl.joystickMain.getTwist() * 0.5;//made z-axis less sensesative
+		//robotZ = -humanControl.joystickMain.getThrottle()*0.4;
+		
+		motors.frontLeft.set(  (-(robotZ) + (robotY))); // (-(Rotate) + (Forward Speed))
+		motors.backLeft.set(   (-(robotZ) + (robotY))); // (-(Rotate) + (Forward Speed))
+		motors.frontRight.set( (-(robotZ) - (robotY))); // (-(Rotate) + (Forward Speed))
+		motors.backRight.set(  (-(robotZ) - (robotY))); // (-(Rotate) + (Forward Speed))
 	}
 
 	/**
