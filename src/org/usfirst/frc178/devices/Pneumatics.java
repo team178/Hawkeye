@@ -7,32 +7,30 @@ import edu.wpi.first.wpilibj.Solenoid;
  */
 public class Pneumatics 
 {
-		public Solenoid frisbeeLoader, shifterHigh, shifterLow;
+		public Solenoid frisbeeLoader, shifter, shifterLow;
 
 	public Pneumatics()
 	{
 		//module defaults to 3
 		frisbeeLoader = new Solenoid(1);	//port 1
-		shifterHigh = new Solenoid(2);		//port 2 //2 and 3 go to the same soleniod. do not send same signal to both sides
+		shifter = new Solenoid(2);		//port 2 //2 and 3 go to the same soleniod. do not send same signal to both sides
 		shifterLow = new Solenoid(3);		//port 3
 	}
 
-	public void shiftBoth()
+	public boolean shift()
 	{
-		shiftLeft();
-		shiftRight();
+		shifter.set(!shifter.get());
+		return shifter.get();
+
 	}
-	private void shiftLeft()
+	public boolean shiftTo(boolean shiftTo)
 	{
-		shifterHigh.set(!shifterHigh.get());
-	}
-	private void shiftRight()
-	{
-		shifterLow.set(!shifterLow.get());
+		shifter.set(shiftTo);
+		return shifter.get();
 	}
 	private int getGear()
 	{
-		if(shifterHigh.get())
+		if(shifter.get())
 		{
 			return 1;
 		}
@@ -49,16 +47,12 @@ public class Pneumatics
 		}
 		else if(gear == 1)
 		{
-			shifterHigh.set(false);
-			shifterLow.set(true);
-		//	shifterLow.set(false); //comment out for old solenoids
+			shifter.set(false);
 			return getGear();
 		}
 		else	//gear == 2
 		{
-			shifterHigh.set(true);
-		//	shifterHigh.set(false); //comment out for old solenoids
-			shifterLow.set(false);
+			shifter.set(true);
 			return getGear();
 		}
 	}

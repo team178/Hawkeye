@@ -47,31 +47,13 @@ public class Drivetrain  {
 	/**
 	 * Drives the robot
 	 */
-	public void drive() {
-		/*
-		if (humanControl.joystickMain.getRawButton(3)) { //low gear
-			//pneumatics.setBothGears(1);
-			pneumatics.shifterHigh.set(false);
-			pneumatics.shifterLow.set(true);
-		}
-		if (humanControl.joystickMain.getRawButton(4)) { //high gear
-			//pneumatics.setBothGears(2);
-			pneumatics.shifterHigh.set(true);
-		//	pneumatics.shifterLow.set(false);
-		}*/
-		
-		pneumatics.shifterHigh.set(humanControl.joystickMain.getRawButton(1));
-		/*
-		if (!humanControl.joystickMain.getRawButton(3) && !humanControl.joystickMain.getRawButton(4)) { //high gear
-			//pneumatics.setBothGears(2);
-			pneumatics.shifterHigh.set(false);
-		//	pneumatics.shifterLow.set(false);
-		}*/
+	public void drive() 
+	{
+		pneumatics.shiftTo(humanControl.joystickMain.getRawButton(1));
 
 		robotX = -humanControl.joystickMain.getX();
 		robotY = -humanControl.joystickMain.getY();
 		robotZ = -humanControl.joystickMain.getTwist() * 0.5;//made z-axis less sensesative
-		//robotZ = -humanControl.joystickMain.getThrottle()*0.4;
 		
 		motors.frontLeft.set(  (-(robotZ) + (robotY))); // (-(Rotate) + (Forward Speed))
 		motors.backLeft.set(   (-(robotZ) + (robotY))); // (-(Rotate) + (Forward Speed))

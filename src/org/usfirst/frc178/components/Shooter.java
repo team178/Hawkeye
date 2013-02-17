@@ -32,7 +32,12 @@ public class Shooter
             shooterStop();
         }
     }
-    
+	
+	public void aux()
+	{
+		
+	}		
+
     public void shooterStart()
     {
 		motors.shooterOne.set(1.0);

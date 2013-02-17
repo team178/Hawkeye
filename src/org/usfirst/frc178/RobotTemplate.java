@@ -62,6 +62,7 @@ public class RobotTemplate extends IterativeRobot  {
 	 */
 	public void teleopPeriodic() {
 		drivetrain.drive();
+		shooter.aux(); //aux controls
 		shooter.shoot();
 		watchdog.feed();
 		
@@ -75,7 +76,7 @@ public class RobotTemplate extends IterativeRobot  {
 		System.out.println(sensors.pressureSwitch.getState());
 		
 		/*
-		if(!sensors.pressureSwitch.getState()){ //runs contuniously
+		if(!sensors.pressureSwitch.getState()){ //runs contuniously, doesn't work
 			spikes.compressor.set(Relay.Value.kOff);
 		}
 		else{ //state == true 
