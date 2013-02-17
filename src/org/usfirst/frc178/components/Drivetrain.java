@@ -49,11 +49,21 @@ public class Drivetrain  {
 	 */
 	public void drive() {
 		
-		if (humanControl.joystickMain.getRawButton(4)) { //high gear
-			pneumatics.setBothGears(2);
-		}
 		if (humanControl.joystickMain.getRawButton(3)) { //low gear
-			pneumatics.setBothGears(1);
+			//pneumatics.setBothGears(1);
+			pneumatics.shifterHigh.set(false);
+			pneumatics.shifterLow.set(true);
+		}
+		if (humanControl.joystickMain.getRawButton(4)) { //high gear
+			//pneumatics.setBothGears(2);
+			pneumatics.shifterHigh.set(true);
+			pneumatics.shifterLow.set(false);
+		}
+		
+		if (!humanControl.joystickMain.getRawButton(3) && !humanControl.joystickMain.getRawButton(4)) { //high gear
+			//pneumatics.setBothGears(2);
+			pneumatics.shifterHigh.set(false);
+			pneumatics.shifterLow.set(false);
 		}
 
 		robotX = -humanControl.joystickMain.getX();

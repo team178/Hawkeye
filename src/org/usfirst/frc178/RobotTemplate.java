@@ -15,6 +15,7 @@ public class RobotTemplate extends IterativeRobot  {
 
 	private Drivetrain drivetrain;
 	private Shooter shooter;
+	private Spike spikes;
 
 	private Pneumatics pneumatics;
 	private Sensors sensors;
@@ -22,7 +23,7 @@ public class RobotTemplate extends IterativeRobot  {
 	private HumanControl humanControl;
 
 	private Watchdog watchdog;
-	private boolean testMode= false;
+	private boolean testMode = false;
 
 	public void robotInit() {
 		driverStation = DriverStation.getInstance();
@@ -32,6 +33,7 @@ public class RobotTemplate extends IterativeRobot  {
 		motors = new Motors();
 		sensors = new Sensors();
 		humanControl = new HumanControl();
+		spikes = new Spike();
 
 		drivetrain = new Drivetrain(motors,humanControl,pneumatics);
 		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
@@ -42,6 +44,7 @@ public class RobotTemplate extends IterativeRobot  {
 		pneumatics.setBothGears(1);
 		watchdog = Watchdog.getInstance();
 		
+
 		if(testMode){
 			pneumatics.setBothGears(2);
 		}
@@ -61,6 +64,26 @@ public class RobotTemplate extends IterativeRobot  {
 		drivetrain.drive();
 		shooter.shoot();
 		watchdog.feed();
+		
+		if(humanControl.joystickMain.getRawButton(5)){ //manual override for compressor
+			System.out.println("on");
+			spikes.compressor.set(Relay.Value.kOn);
+		} else	{
+			spikes.compressor.set(Relay.Value.kOff);
+		}
+		
+		System.out.println(sensors.pressureSwitch.getState());
+		
+		/*
+		if(!sensors.pressureSwitch.getState()){ //runs contuniously
+			spikes.compressor.set(Relay.Value.kOff);
+		}
+		else{ //state == true 
+			spikes.compressor.set(Relay.Value.kOn);
+		}
+		*/
+		
+		
 	}
 
 }
