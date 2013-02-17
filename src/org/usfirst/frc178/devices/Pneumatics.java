@@ -51,13 +51,13 @@ public class Pneumatics
 		{
 			shifterHigh.set(false);
 			shifterLow.set(true);
-			shifterLow.set(false);
+		//	shifterLow.set(false); //comment out for old solenoids
 			return getGear();
 		}
 		else	//gear == 2
 		{
 			shifterHigh.set(true);
-			shifterHigh.set(false);
+		//	shifterHigh.set(false); //comment out for old solenoids
 			shifterLow.set(false);
 			return getGear();
 		}
