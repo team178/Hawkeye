@@ -21,7 +21,7 @@ public class Shooter
         this.humanControl = humanControl;
     }
     
-    public void shoot()
+    public void run()
     {
         if(humanControl.joystickAux.getTrigger())
         {
@@ -35,11 +35,19 @@ public class Shooter
 	
 	public void aux()
 	{
-		
-	}		
+		humanControl.joystickAux.getRawButton(1);	//button A
+		humanControl.joystickAux.getRawButton(2);	//button B
+		humanControl.joystickAux.getRawButton(3);	//button X
+		humanControl.joystickAux.getRawButton(4);	//button Y
+		humanControl.joystickAux.getRawButton(5);	//button LeftBumper
+		humanControl.joystickAux.getRawButton(6);	//button RightBumper
+		humanControl.joystickAux.getRawButton(7);	//button Back
+		humanControl.joystickAux.getRawButton(8);	//button Start
+		humanControl.joystickAux.getRawButton(9);	//button LeftAnalogStickButton
+		humanControl.joystickAux.getRawButton(10);	//button RightAnalogStickButton
+	}
 
-    public void shooterStart()
-    {
+    public void shooterStart() {
 		motors.shooterOne.set(1.0);
 		motors.shooterTwo.set(1.0);
     }
