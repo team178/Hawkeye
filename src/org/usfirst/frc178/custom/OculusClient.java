@@ -43,7 +43,7 @@ public class OculusClient {
 		}
 	}
 
-	public void disconnect() {
+	public void disconnect() throws IOException {
 		this.is.close();
 		this.os.close();
 		this.sc.close();
