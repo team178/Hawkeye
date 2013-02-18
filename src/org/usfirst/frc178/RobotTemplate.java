@@ -2,6 +2,7 @@ package org.usfirst.frc178;
 
 import org.usfirst.frc178.components.Shooter;
 import org.usfirst.frc178.components.Drivetrain;
+import org.usfirst.frc178.custom.*;
 import org.usfirst.frc178.devices.*;
 import org.usfirst.frc178.devices.Motors;
 
@@ -9,6 +10,10 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class RobotTemplate extends IterativeRobot  {
+
+	// Constants
+	public static final String ip = "10.1.78.24";
+	public static final String port = "178";
 
 	// components
 	private Drivetrain drivetrain;
@@ -43,7 +48,7 @@ public class RobotTemplate extends IterativeRobot  {
 		//dashboardHigh = new DashboardHigh();
 
 		// custom
-		oculusClient = new OculusClient();
+		oculusClient = new OculusClient(ip, port);
 
 		// devices
 		humanControl = new HumanControl();
