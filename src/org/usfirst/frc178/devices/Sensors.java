@@ -5,9 +5,9 @@ import org.usfirst.frc178.custom.*;
 
 public class Sensors
 {
-		public Encoder shooterOneEncoder, shooterTwoEncoder, elevationEncoder, driveEncoderLeft, driveEncoderRight;
-		public LimitSwitch elevationLowSwitch, elevationHighSwitch, pressureSwitch;
-		public Photosensor shooterPhoto, feederPhoto;
+	public Encoder shooterOneEncoder, shooterTwoEncoder, elevationEncoder, driveEncoderLeft, driveEncoderRight;
+	public LimitSwitch elevationLowSwitch, elevationHighSwitch, pressureSwitch;
+	public Photosensor shooterPhoto, feederPhoto;
 
 	public Sensors()
 	{
