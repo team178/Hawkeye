@@ -53,7 +53,7 @@ public class Drivetrain  {
 
 		robotX = -humanControl.joystickMain.getX();
 		robotY = -humanControl.joystickMain.getY();
-		robotZ = -humanControl.joystickMain.getTwist() * 0.5;//made z-axis less sensesative
+		robotZ = -humanControl.joystickMain.getTwist() * 0.5; // Twist should be less sensitive
 
 		// (-(Rotate) + (Forward Speed))
 		motors.frontLeft.set(  (-(robotZ) + (robotY)) );
