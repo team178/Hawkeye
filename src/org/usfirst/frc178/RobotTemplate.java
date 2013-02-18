@@ -63,7 +63,7 @@ public class RobotTemplate extends IterativeRobot  {
 	public void teleopPeriodic() {
 		drivetrain.drive();
 		shooter.aux(); //aux controls
-		shooter.shoot();
+		shooter.run(); //if joystick trigger == true, fire
 		watchdog.feed();
 		
 		if(humanControl.joystickMain.getRawButton(5)){ //manual override for compressor
