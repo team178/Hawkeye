@@ -10,7 +10,7 @@ public class Drivetrain  {
 
 	private double robotX, robotY, robotZ;
 
-	public Drivetrain(Motors motors, HumanControl humanControl,Pneumatics pneumatics) {
+	public Drivetrain(Motors motors, HumanControl humanControl, Pneumatics pneumatics) {
 		this.motors = motors;
 		this.humanControl = humanControl;
 		this.pneumatics = pneumatics;
@@ -54,11 +54,12 @@ public class Drivetrain  {
 		robotX = -humanControl.joystickMain.getX();
 		robotY = -humanControl.joystickMain.getY();
 		robotZ = -humanControl.joystickMain.getTwist() * 0.5;//made z-axis less sensesative
-		
-		motors.frontLeft.set(  (-(robotZ) + (robotY))); // (-(Rotate) + (Forward Speed))
-		motors.backLeft.set(   (-(robotZ) + (robotY))); // (-(Rotate) + (Forward Speed))
-		motors.frontRight.set( (-(robotZ) - (robotY))); // (-(Rotate) + (Forward Speed))
-		motors.backRight.set(  (-(robotZ) - (robotY))); // (-(Rotate) + (Forward Speed))
+
+		// (-(Rotate) + (Forward Speed))
+		motors.frontLeft.set(  (-(robotZ) + (robotY)) );
+		motors.backLeft.set(   (-(robotZ) + (robotY)) );
+		motors.frontRight.set( (-(robotZ) - (robotY)) );
+		motors.backRight.set(  (-(robotZ) - (robotY)) );
 	}
 
 	/**
