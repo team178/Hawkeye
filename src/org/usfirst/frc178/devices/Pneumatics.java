@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.Solenoid;
  *
  * @author Administrator
  */
-public class Pneumatics 
-{
-		public Solenoid frisbeeLoader, shifter, shifterLow;
+public class Pneumatics  {
+
+	public Solenoid frisbeeLoader, shifter, shifterLow;
 
 	public Pneumatics()
 	{
@@ -23,11 +23,13 @@ public class Pneumatics
 		return shifter.get();
 
 	}
+
 	public boolean shiftTo(boolean shiftTo)
 	{
 		shifter.set(shiftTo);
 		return shifter.get();
 	}
+
 	private int getGear()
 	{
 		if(shifter.get())
@@ -39,24 +41,32 @@ public class Pneumatics
 			return 2;
 		}
 	}
-	public int setBothGears(int gear)
-	{
-		if(gear > 2 || gear < 0)
-		{
-			return -1;
+
+	public int setBothGears(int gear) {
+
+		// Check bounds
+		if (gear > 2 || gear < 0) {
+			throw new IllegalArgumentException("Only gears of first and second can be set");
 		}
-		else if(gear == 1)
-		{
+
+		// Why is this not setting shifterLow?
+
+		if (gear == 1) {
+			// Switch to first gear
 			shifter.set(false);
 			return getGear();
-		}
-		else	//gear == 2
-		{
+		} else {
+			// Switch to second gear
 			shifter.set(true);
 			return getGear();
 		}
+
 	}
-	public int resetGears()	//resets both gears to first gear
+
+	/**
+	 * Resets both gears to first gear
+	 */
+	public int resetGears()
 	{
 		return setBothGears(1);
 	}
