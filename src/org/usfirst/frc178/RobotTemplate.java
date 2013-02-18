@@ -9,45 +9,61 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class RobotTemplate extends IterativeRobot  {
+
+	// components
+	private Drivetrain drivetrain;
+	private Shooter shooter;
+
+	// custom
+	private OculusClient oculusClient;
+
+	// dashboard
 	DriverStationLCD dsout;
 	private DriverStation driverStation;
 	//private DashboardHigh dashboardHigh;
 
-	private Drivetrain drivetrain;
-	private Shooter shooter;
-	private Spike spikes;
-
+	// devices
+	private HumanControl humanControl;
+	private Motors motors;
 	private Pneumatics pneumatics;
 	private Sensors sensors;
-	private Motors motors;
-	private HumanControl humanControl;
+	private Spike spikes;
 
 	private Watchdog watchdog;
+
 	private boolean testMode = false;
 
 	public void robotInit() {
+		// components
+		drivetrain = new Drivetrain(motors,humanControl,pneumatics);
+		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
+
+		// dashboard
 		driverStation = DriverStation.getInstance();
 		//dashboardHigh = new DashboardHigh();
 
-		pneumatics = new Pneumatics();
-		motors = new Motors();
-		sensors = new Sensors();
-		humanControl = new HumanControl();
-		spikes = new Spike();
+		// custom
+		oculusClient = new OculusClient();
 
-		drivetrain = new Drivetrain(motors,humanControl,pneumatics);
-		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
+		// devices
+		humanControl = new HumanControl();
+		motors = new Motors();
+		pneumatics = new Pneumatics();
+		sensors = new Sensors();
+		spikes = new Spike();
 
 		dsout = DriverStationLCD.getInstance();
 		dsout.updateLCD();
 
-		pneumatics.setBothGears(1);
 		watchdog = Watchdog.getInstance();
-		
+
+		pneumatics.setBothGears(1);
 
 		if(testMode){
 			pneumatics.setBothGears(2);
 		}
+
+		
 	}
 
 	/**
