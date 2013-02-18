@@ -10,7 +10,7 @@ import javax.microedition.io.SocketConnection;
  *
  * @author Enforcers
  */
-public class TCPClient {
+public class OculusClient {
 
 	private String ip;
 	private String port;
@@ -19,7 +19,7 @@ public class TCPClient {
 	private InputStream is;
 	private OutputStream os;
 
-	public TCPClient(String ip, String port) {
+	public OculusClient(String ip, String port) {
 		this.ip = ip;
 		this.port = port;
 	}
