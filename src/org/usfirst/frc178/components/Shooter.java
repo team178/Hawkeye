@@ -21,8 +21,9 @@ public class Shooter
         this.humanControl = humanControl;
     }
     
-    public void run()
-    {
+    public void run() {
+		this.aux();
+		
         if(humanControl.joystickAux.getTrigger())
         {
             shooterStart();
