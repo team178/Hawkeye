@@ -12,9 +12,9 @@ public class Pneumatics
 	public Pneumatics()
 	{
 		//module defaults to 3
-		frisbeeLoader = new Solenoid(1);	//port 1
-		shifter = new Solenoid(2);		//port 2 //2 and 3 go to the same soleniod. do not send same signal to both sides
-		shifterLow = new Solenoid(3);		//port 3
+		frisbeeLoader = new Solenoid(1);
+		shifter = new Solenoid(2);
+		shifterLow = new Solenoid(3);
 	}
 
 	public boolean shift()
