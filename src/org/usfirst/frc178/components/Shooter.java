@@ -93,7 +93,7 @@ public class Shooter
 		}
 		
 		if(humanControl.joystickAux.getRawButton(8) && !sensors.elevationLoadSwitch.getState()){	//button Start
-			motors.elevator.set(-1.0);
+			motors.elevator.set(1.0);
 		}
 		if(humanControl.joystickAux.getRawButton(9)){	//button LeftAnalogStickButton
 		}
