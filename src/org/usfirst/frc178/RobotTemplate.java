@@ -90,8 +90,8 @@ public class RobotTemplate extends IterativeRobot  {
 		shooter.run(); //if joystick trigger == true, fire
 		watchdog.feed();
 
-		dsout.println(DriverStationLCD.Line.kUser1,1, "test");
-		dsout.println(DriverStationLCD.Line.kUser2,1, "" + analogPressure.getVoltage());
+		dsout.println(DriverStationLCD.Line.kUser1, 1, "test");
+		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
 		dsout.updateLCD();
 		
 		if(humanControl.joystickMain.getRawButton(5)){ //manual override for compressor
