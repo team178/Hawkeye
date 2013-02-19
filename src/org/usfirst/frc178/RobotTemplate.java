@@ -21,6 +21,7 @@ public class RobotTemplate extends IterativeRobot  {
 
 	// custom
 	private OculusClient oculusClient;
+	private VisionProcessing vision;
 
 	// dashboard
 	DriverStationLCD dsout;
@@ -72,7 +73,9 @@ public class RobotTemplate extends IterativeRobot  {
 		// components
 		drivetrain = new Drivetrain(motors,humanControl,pneumatics);
 		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
-		
+		vision = new VisionProcessing(drivetrain, shooter, oculusClient);
+
+		oculusClient.connect();
 	}
 
 	/**
@@ -90,10 +93,10 @@ public class RobotTemplate extends IterativeRobot  {
 		shooter.run(); //if joystick trigger == true, fire
 		watchdog.feed();
 
-		dsout.println(DriverStationLCD.Line.kUser1, 1, "test");
+		//mdsout.println(DriverStationLCD.Line.kUser1, 1, "Position: " + oculusClient.request());
 		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
 		dsout.updateLCD();
-		
+
 		if(humanControl.joystickMain.getRawButton(5)){ //manual override for compressor
 			System.out.println("on");
 			spikes.compressorRelay.set(Relay.Value.kOn);
@@ -101,7 +104,7 @@ public class RobotTemplate extends IterativeRobot  {
 			spikes.compressorRelay.set(Relay.Value.kOff);
 		}
 
-		System.out.println(sensors.pressureSwitch.getState());
+		//System.out.println(sensors.pressureSwitch.getState());
 		
 		/*
 		if(!sensors.pressureSwitch.getState()){ //runs contuniously, doesn't work
