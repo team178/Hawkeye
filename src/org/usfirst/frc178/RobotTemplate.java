@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 public class RobotTemplate extends IterativeRobot  {
 
 	// Constants
-	public static final String ip = "10.1.78.24";
+	public static final String ip = "10.1.78.13";
 	public static final String port = "178";
 
 	// components
@@ -35,6 +35,8 @@ public class RobotTemplate extends IterativeRobot  {
 	private Sensors sensors;
 	private Spike spikes;
 	private AnalogPressure analogPressure;
+
+	private Thread visionThread;
 
 	private Watchdog watchdog;
 
@@ -73,9 +75,11 @@ public class RobotTemplate extends IterativeRobot  {
 		// components
 		drivetrain = new Drivetrain(motors,humanControl,pneumatics);
 		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
-		vision = new VisionProcessing(drivetrain, shooter, oculusClient);
+		vision = new VisionProcessing(drivetrain, shooter, humanControl, oculusClient);
 
 		oculusClient.connect();
+		visionThread = new Thread(vision, "Vision Thread");
+		visionThread.start();
 	}
 
 	/**

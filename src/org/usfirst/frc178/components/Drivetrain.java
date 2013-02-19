@@ -100,4 +100,15 @@ public class Drivetrain  {
 		motors.frontRight.set(getFrontRight() * fraction);
 		motors.backRight.set(getBackRight() * fraction);
 	}
+
+	/**
+	 * Turn the robot
+	 */
+	public void turn(double robotZ) {
+		System.out.println(robotZ);
+		motors.frontLeft.set(robotZ);
+		motors.backLeft.set(robotZ);
+		motors.frontRight.set(robotZ);
+		motors.backRight.set(robotZ);
+	}
 }
