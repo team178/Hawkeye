@@ -77,9 +77,9 @@ public class RobotTemplate extends IterativeRobot  {
 		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
 		vision = new VisionProcessing(drivetrain, shooter, humanControl, oculusClient);
 
-		oculusClient.connect();
+		/*oculusClient.connect();
 		visionThread = new Thread(vision, "Vision Thread");
-		visionThread.start();
+		visionThread.start();*/
 	}
 
 	/**
