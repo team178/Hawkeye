@@ -33,6 +33,7 @@ public class RobotTemplate extends IterativeRobot  {
 	private Pneumatics pneumatics;
 	private Sensors sensors;
 	private Spike spikes;
+	private AnalogPressure analogPressure;
 
 	private Watchdog watchdog;
 
@@ -49,6 +50,7 @@ public class RobotTemplate extends IterativeRobot  {
 
 		// custom
 		oculusClient = new OculusClient(ip, port);
+		analogPressure = new AnalogPressure();
 
 		// devices
 		humanControl = new HumanControl();
@@ -67,7 +69,9 @@ public class RobotTemplate extends IterativeRobot  {
 		if(testMode){
 			pneumatics.setBothGears(2);
 		}
-
+		// components
+		drivetrain = new Drivetrain(motors,humanControl,pneumatics);
+		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
 		
 	}
 
@@ -86,21 +90,25 @@ public class RobotTemplate extends IterativeRobot  {
 		shooter.run(); //if joystick trigger == true, fire
 		watchdog.feed();
 
+		dsout.println(DriverStationLCD.Line.kUser1,1, "test");
+		dsout.println(DriverStationLCD.Line.kUser2,1, "" + analogPressure.getVoltage());
+		dsout.updateLCD();
+		
 		if(humanControl.joystickMain.getRawButton(5)){ //manual override for compressor
 			System.out.println("on");
-			spikes.compressor.set(Relay.Value.kOn);
+			spikes.compressorRelay.set(Relay.Value.kOn);
 		} else	{
-			spikes.compressor.set(Relay.Value.kOff);
+			spikes.compressorRelay.set(Relay.Value.kOff);
 		}
 
 		System.out.println(sensors.pressureSwitch.getState());
 		
 		/*
 		if(!sensors.pressureSwitch.getState()){ //runs contuniously, doesn't work
-			spikes.compressor.set(Relay.Value.kOff);
+			spikes.compressorRelay.set(Relay.Value.kOff);
 		}
 		else{ //state == true 
-			spikes.compressor.set(Relay.Value.kOn);
+			spikes.compressorRelay.set(Relay.Value.kOn);
 		}
 		*/
 		

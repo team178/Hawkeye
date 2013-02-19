@@ -34,14 +34,14 @@ public class Shooter
 		{
 			motors.elevator.set(0.0);
 		}
-		/*
+		
 		this.aux();
 		if(humanControl.joystickAux.getTrigger()){
 			shooterStart();
 		}
 		else{
 			shooterStop();
-		}*/
+		}
 	}
 	/**
 	 * aux controller
@@ -70,6 +70,10 @@ public class Shooter
 		
 		if(humanControl.joystickAux.getRawButton(5)){	//button LeftBumper
 		//extend hopper
+			pneumatics.hopper.set(true);
+		}
+		else{
+			pneumatics.hopper.set(false);
 		}
 		
 		if(humanControl.joystickAux.getRawButton(6)){	//button RightBumper
@@ -98,8 +102,8 @@ public class Shooter
 	}
 	
 	public void shooterStart(){
-		motors.shooterOne.set(1.0);
-		motors.shooterTwo.set(1.0);
+		motors.shooterOne.set(-1.0);
+		motors.shooterTwo.set(-1.0);
 	}
 	 public void shooterStop(){
 		motors.shooterOne.set(0.0);

@@ -50,6 +50,7 @@ public class Drivetrain  {
 	public void drive() {
 		// Shift to high gear when pressing trigger
 		pneumatics.shiftTo( humanControl.joystickMain.getTrigger() );
+		pneumatics.shiftTo(humanControl.joystickMain.getRawButton(2));
 
 		robotX = -humanControl.joystickMain.getX();
 		robotY = -humanControl.joystickMain.getY();

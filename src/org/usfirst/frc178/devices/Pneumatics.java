@@ -7,13 +7,14 @@ import edu.wpi.first.wpilibj.Solenoid;
  */
 public class Pneumatics  {
 
-	public Solenoid frisbeeLoader, shifter, shifterLow;
+	public Solenoid frisbeeLoader, shifter, shifterLow, hopper;
 
 	public Pneumatics()
 	{
 		//module defaults to 3
 		frisbeeLoader = new Solenoid(1);
-		shifter = new Solenoid(2);
+		shifter = new Solenoid(3);
+		hopper = new Solenoid(2);
 	}
 
 	public boolean shift()
