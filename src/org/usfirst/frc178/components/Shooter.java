@@ -22,18 +22,18 @@ public class Shooter
 	}
 	
 	public void run() {
-		if(humanControl.joystickMain.getRawButton(11) && !humanControl.joystickMain.getRawButton(12))
-		{
-			motors.elevator.set(-1.0);
-		}
-		else if(humanControl.joystickMain.getRawButton(12) && !humanControl.joystickMain.getRawButton(11))
-		{
-			motors.elevator.set(1.0);
-		}
-		else
-		{
-			motors.elevator.set(0.0);
-		}
+			if(humanControl.joystickMain.getRawButton(11) && !humanControl.joystickMain.getRawButton(12) && !sensors.elevationLowSwitch.getState())
+			{
+				motors.elevator.set(-1.0);	//down
+			}
+			else if(humanControl.joystickMain.getRawButton(12) && !humanControl.joystickMain.getRawButton(11) && !sensors.elevationHighSwitch.getState())
+			{
+				motors.elevator.set(1.0);	//up
+			}
+			else
+			{
+				motors.elevator.set(0.0);
+			}
 		
 		this.aux();
 		if(humanControl.joystickAux.getTrigger()){
@@ -92,7 +92,8 @@ public class Shooter
 		//auto kill
 		}
 		
-		if(humanControl.joystickAux.getRawButton(8)){	//button Start
+		if(humanControl.joystickAux.getRawButton(8) && !sensors.elevationLoadSwitch.getState()){	//button Start
+			motors.elevator.set(-1.0);
 		}
 		if(humanControl.joystickAux.getRawButton(9)){	//button LeftAnalogStickButton
 		}
