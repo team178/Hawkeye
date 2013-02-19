@@ -8,7 +8,7 @@ public class VisionProcessing {
 	private Shooter shooter;
 	private OculusClient oculusClient;
 
-	public void VisionProcessing(Drivetrain drivetrain, Shooter shooter, OculusClient oculusClient) {
+	public VisionProcessing(Drivetrain drivetrain, Shooter shooter, OculusClient oculusClient) {
 		this.drivetrain = drivetrain;
 		this.shooter = shooter;
 		this.oculusClient = oculusClient;
@@ -18,8 +18,7 @@ public class VisionProcessing {
 	 * Automatically aim
 	 */
 	public void aim() {
-		oculusClient.request();
-		
+		System.out.println(oculusClient.request());
 	}
 
 }
