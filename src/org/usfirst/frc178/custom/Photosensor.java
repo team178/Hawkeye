@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.AnalogChannel;
  */
 public class Photosensor 
 {
-    private AnalogChannel analog;
+    public AnalogChannel analog;
     
     public Photosensor(int channel)
     {

@@ -14,7 +14,6 @@ public class Pneumatics  {
 		//module defaults to 3
 		frisbeeLoader = new Solenoid(1);
 		shifter = new Solenoid(2);
-		shifterLow = new Solenoid(3);
 	}
 
 	public boolean shift()
@@ -43,24 +42,22 @@ public class Pneumatics  {
 	}
 
 	public int setBothGears(int gear) {
-
 		// Check bounds
 		if (gear > 2 || gear < 0) {
 			throw new IllegalArgumentException("Only gears of first and second can be set");
 		}
 
 		// Why is this not setting shifterLow?
+		// because shifterLow is no longer used. the old solenoids (the only ones that work) have only one DIO input.
 
 		if (gear == 1) {
 			// Switch to first gear
 			shifter.set(false);
-			return getGear();
 		} else {
 			// Switch to second gear
 			shifter.set(true);
-			return getGear();
 		}
-
+		return getGear();
 	}
 
 	/**
