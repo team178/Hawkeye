@@ -29,6 +29,7 @@ public class OculusClient {
 	}
 
 	public void connect() {
+		System.out.println("Connecting to coprocessor");
 		try {
 			this.sc = (SocketConnection) Connector.open("socket://" + this.ip + ":" + this.port);
 			sc.setSocketOption(SocketConnection.LINGER, 5);
@@ -57,14 +58,10 @@ public class OculusClient {
 
 	public String request() {
 
-		if (this.isConnected()) {
-			this.connect();
-		}
-
 		String result = "no data";
 
 		try {
-			byte[] data = new byte[39];
+			byte[] data = new byte[12];
 			this.is.read(data);
 
 			result = new String(data);
