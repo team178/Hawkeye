@@ -15,13 +15,12 @@ public class Sensors
 			driveEncoderLeft = new Encoder(3,4);			//DIO ports 3,4
 			//shooterOneEncoder = new Encoder(5,6);			//DIO ports 5,6
 			//shooterTwoEncoder = new Encoder(7,8);			//DIO ports 7,8
-			elevationLoadSwitch = new LimitSwitch(13,true);	//DIO port 13
+			elevationLoadSwitch = new LimitSwitch(11,true);	//DIO port 13
 			elevationLowSwitch = new LimitSwitch(12,true);	//DIO port 12
-			elevationHighSwitch = new LimitSwitch(11,true);	//DIO port 11
+			elevationHighSwitch = new LimitSwitch(13,true);	//DIO port 11
 			pressureSwitch = new LimitSwitch(14,true);		//DIO port 14, cutoff at 120 psi --Check Normally Open State******
 			shooterPhoto = new Photosensor(2);
 			feederPhoto = new Photosensor(3);
-			
 	}
 
 }

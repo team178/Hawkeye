@@ -18,7 +18,7 @@ public class LimitSwitch
         this.normallyOpen = normallyOpen;
         dIN = new DigitalInput(this.channel);
     }
-    
+
     public LimitSwitch(int module, int channel, boolean normallyOpen)
     {
         this.channel = channel;
@@ -26,7 +26,7 @@ public class LimitSwitch
         this.normallyOpen = normallyOpen;
         dIN = new DigitalInput(this.module,this.channel);
     }
-    
+
     public boolean getState()
     {
         if(normallyOpen)

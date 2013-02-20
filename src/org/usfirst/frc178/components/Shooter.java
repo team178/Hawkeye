@@ -20,22 +20,31 @@ public class Shooter
 		this.sensors = sensors;
 		this.humanControl = humanControl;
 	}
-	
+
 	public void run() {
-			if(humanControl.joystickMain.getRawButton(11) && !humanControl.joystickMain.getRawButton(12) && !sensors.elevationLowSwitch.getState())
-			{
-				motors.elevator.set(-1.0);	//down
-			}
-			else if(humanControl.joystickMain.getRawButton(12) && !humanControl.joystickMain.getRawButton(11) && !sensors.elevationHighSwitch.getState())
-			{
-				motors.elevator.set(1.0);	//up
-			}
-			else
-			{
-				motors.elevator.set(0.0);
-			}
-		
 		this.aux();
+
+		// Move and prevent the shooter from moving past its limit
+		if (humanControl.joystickMain.getRawButton(11) && !sensors.elevationHighSwitch.getState()) {
+			motors.elevator.set(-1.0); // down
+		} else if (humanControl.joystickMain.getRawButton(12) && !sensors.elevationLowSwitch.getState()) {
+			motors.elevator.set(1.0); // up
+		} else {
+			motors.elevator.set(0.0);
+		}
+
+		if (sensors.elevationLowSwitch.getState()) {
+			System.out.println("low");
+		}
+		
+		if (sensors.elevationHighSwitch.getState()) {
+			System.out.println("high");
+		}
+				
+		if (sensors.elevationLoadSwitch.getState()) {
+			System.out.println("load");
+		}
+
 		if(humanControl.joystickAux.getTrigger()){
 			shooterStart();
 		}
@@ -59,13 +68,11 @@ public class Shooter
 		if(humanControl.joystickAux.getRawButton(3)){	//button X
 		//auto aim
 		}
-		
-		if(humanControl.joystickAux.getRawButton(4)){	//button Y
-		//indexer
-			motors.feederServo.set(1.0);	//1.0 or -1.0
-		}
-		else{
+
+		if (humanControl.joystickAux.getRawButton(4)) { // button y  
 			motors.feederServo.set(0.0);
+		} else {
+			motors.feederServo.set(0.5);
 		}
 		
 		if(humanControl.joystickAux.getRawButton(5)){	//button LeftBumper

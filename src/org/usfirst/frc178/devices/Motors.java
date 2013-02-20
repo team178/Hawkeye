@@ -21,7 +21,7 @@ public class Motors
 		backLeft = new Victor(4){public void set(double d){super.set(d * robotSpeed);}}; //PWM port 4	
         shooterOne = new Victor(5);
         shooterTwo = new Victor(6);
-        feederServo = new Servo(8);
         elevator = new Victor(7);
+		feederServo = new Servo(8);
     }
 }
