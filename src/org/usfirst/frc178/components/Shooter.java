@@ -33,17 +33,9 @@ public class Shooter
 			motors.elevator.set(0.0);
 		}
 
-		if (sensors.elevationLowSwitch.getState()) {
-			System.out.println("low");
-		}
-		
-		if (sensors.elevationHighSwitch.getState()) {
-			System.out.println("high");
-		}
-				
-		if (sensors.elevationLoadSwitch.getState()) {
-			System.out.println("load");
-		}
+			System.out.print(sensors.elevationLowSwitch.getState() + "\t");
+			System.out.print(sensors.elevationHighSwitch.getState() + "\t");
+			System.out.println(sensors.elevationLoadSwitch.getState());
 
 		if(humanControl.joystickAux.getTrigger()){
 			shooterStart();

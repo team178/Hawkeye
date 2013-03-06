@@ -18,7 +18,7 @@ public class Sensors
 			elevationLoadSwitch = new LimitSwitch(11,true);	//DIO port 13
 			elevationLowSwitch = new LimitSwitch(12,true);	//DIO port 12
 			elevationHighSwitch = new LimitSwitch(13,true);	//DIO port 11
-			pressureSwitch = new LimitSwitch(14,true);		//DIO port 14, cutoff at 120 psi --Check Normally Open State******
+			pressureSwitch = new LimitSwitch(14,false);		//DIO port 14, cutoff at 120 psi --Check Normally Open State******
 			shooterPhoto = new Photosensor(2);
 			feederPhoto = new Photosensor(3);
 	}
