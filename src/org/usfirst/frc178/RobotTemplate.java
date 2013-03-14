@@ -86,6 +86,12 @@ public class RobotTemplate extends IterativeRobot  {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
+		if(!sensors.pressureSwitch.getState()){ //runs contuniously
+			spikes.compressorRelay.set(Relay.Value.kOff);
+		}
+		else{ //state == true 
+			spikes.compressorRelay.set(Relay.Value.kOn);
+		}
 
 	}
 
@@ -97,8 +103,16 @@ public class RobotTemplate extends IterativeRobot  {
 		shooter.run(); //if joystick trigger == true, fire
 		watchdog.feed();
 
+		printLimitSwitches();
 		//mdsout.println(DriverStationLCD.Line.kUser1, 1, "Position: " + oculusClient.request());
+		//dsout.println(DriverStationLCD.Line.kUser1, 1, "Limit Switch: " + limitSwitch);
 		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
+		dsout.println(DriverStationLCD.Line.kUser1, 1, "Pressure: " + sensors.pressureSwitch.getState());
+		if (sensors.elevationLoadSwitch.getState()) {
+			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch is PRESSED!!!");
+		} else {
+			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch is not pressed");
+		}
 		dsout.updateLCD();
 
 		if(humanControl.joystickMain.getRawButton(5)){ //manual override for compressor
@@ -110,16 +124,21 @@ public class RobotTemplate extends IterativeRobot  {
 
 		//System.out.println(sensors.pressureSwitch.getState());
 		
-		/*
-		if(!sensors.pressureSwitch.getState()){ //runs contuniously, doesn't work
+		
+		if(!sensors.pressureSwitch.getState()){ //runs contuniously
 			spikes.compressorRelay.set(Relay.Value.kOff);
 		}
 		else{ //state == true 
 			spikes.compressorRelay.set(Relay.Value.kOn);
 		}
-		*/
 		
 		
+		
+	}
+	public String printLimitSwitches()
+	{
+		System.out.println(sensors.elevationHighSwitch.getState() + "\t" + sensors.elevationLoadSwitch.getState() + "\t" + sensors.elevationLowSwitch.getState());
+		return (sensors.elevationHighSwitch.getState() + "\t" + sensors.elevationLoadSwitch.getState() + "\t" + sensors.elevationLowSwitch.getState());
 	}
 
 }

@@ -1,4 +1,4 @@
-package org.usfirst.frc178;
+package org.usfirst.frc178.custom;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,8 +39,6 @@ public class OculusClient {
 
 			this.isConnected = true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -66,8 +64,6 @@ public class OculusClient {
 
 			result = new String(data);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		return result;

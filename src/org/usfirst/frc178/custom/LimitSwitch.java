@@ -1,6 +1,7 @@
 package org.usfirst.frc178.custom;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import org.usfirst.frc178.devices.Sensors;
 
 /**
  *
@@ -38,4 +39,9 @@ public class LimitSwitch
             return !dIN.get();
         }
     }
+//	public String printLimitSwitches()
+//	{
+//		System.out.println(sensors.elevationHighSwitch.getState() + "\t" + sensors.elevationLoadSwitch.getState() + "\t" + sensors.elevationLowSwitch.getState());
+//		return (sensors.elevationHighSwitch.getState() + "\t" + sensors.elevationLoadSwitch.getState() + "\t" + sensors.elevationLowSwitch.getState());
+//	}
 }

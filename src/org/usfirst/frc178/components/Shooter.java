@@ -25,17 +25,17 @@ public class Shooter
 		this.aux();
 
 		// Move and prevent the shooter from moving past its limit
-		if (humanControl.joystickMain.getRawButton(11) && !sensors.elevationHighSwitch.getState()) {
+		if (humanControl.joystickMain.getRawButton(11) && !sensors.elevationLowSwitch.getState()) {
 			motors.elevator.set(-1.0); // down
-		} else if (humanControl.joystickMain.getRawButton(12) && !sensors.elevationLowSwitch.getState()) {
+		} else if (humanControl.joystickMain.getRawButton(12) && !sensors.elevationHighSwitch.getState()) {
 			motors.elevator.set(1.0); // up
 		} else {
 			motors.elevator.set(0.0);
 		}
 
-			System.out.print(sensors.elevationLowSwitch.getState() + "\t");
-			System.out.print(sensors.elevationHighSwitch.getState() + "\t");
-			System.out.println(sensors.elevationLoadSwitch.getState());
+			/*System.out.print(sensors.elevationHighSwitch.getState() + "\t");
+			System.out.print(sensors.elevationLoadSwitch.getState() + "\t");
+			System.out.println(sensors.elevationLowSwitch.getState());*/
 
 		if(humanControl.joystickAux.getTrigger()){
 			shooterStart();
@@ -98,7 +98,26 @@ public class Shooter
 		}
 		if(humanControl.joystickAux.getRawButton(10)){	//button RightAnalogStickButton
 		}
-		//if(humanControl.joystickAux.)	//POV d-pad
+		
+		/**
+		//POV d-pad x-axis
+		if (humanControl.joystickAux.getRawAxis(5)<0 && !sensors.elevationLowSwitch.getState()) {
+			motors.elevator.set(-1.0); // down
+		} else if (humanControl.joystickAux.getRawAxis(5)>0 && !sensors.elevationHighSwitch.getState()) {
+			motors.elevator.set(1.0); // up
+		} else {
+			motors.elevator.set(0.0);
+		}
+		//POV d-pad y-axis
+		if (humanControl.joystickAux.getRawAxis(6)<0 && !sensors.elevationLowSwitch.getState()) {
+			motors.elevator.set(-1.0); // down
+		} else if (humanControl.joystickAux.getRawAxis(6)>0 && !sensors.elevationHighSwitch.getState()) {
+			motors.elevator.set(1.0); // up
+		} else {
+			motors.elevator.set(0.0);
+		}
+		*/
+		
 	}
 	
 	public void shooterStart(){
