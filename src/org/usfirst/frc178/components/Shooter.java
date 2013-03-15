@@ -23,10 +23,14 @@ public class Shooter
 
 	public void run() {
 		this.aux();
-
 		// Move and prevent the shooter from moving past its limit
-		humanControl.joystickMain.getRawButton(3);
-		humanControl.joystickMain.getRawButton(4);
+		if (humanControl.joystickMain.getRawButton(3) && !sensors.elevationLowSwitch.getState()) {
+			motors.elevator.set(-1.0); // down
+		} else if (humanControl.joystickMain.getRawButton(4) && !sensors.elevationHighSwitch.getState()) {
+			motors.elevator.set(1.0); // up
+		} else {
+			motors.elevator.set(0.0);
+		}
 		if (humanControl.joystickMain.getRawButton(11) && !sensors.elevationLowSwitch.getState()) {
 			motors.elevator.set(-1.0); // down
 		} else if (humanControl.joystickMain.getRawButton(12) && !sensors.elevationHighSwitch.getState()) {
@@ -103,13 +107,6 @@ public class Shooter
 		}
 		
 		//POV d-pad x-axis
-		if (humanControl.joystickAux.getRawAxis(6)<0 && !sensors.elevationLowSwitch.getState()) {
-			motors.elevator.set(-1.0); // down
-		} else if (humanControl.joystickAux.getRawAxis(6)>0 && !sensors.elevationHighSwitch.getState()) {
-			motors.elevator.set(1.0); // up
-		} else {
-			motors.elevator.set(0.0);
-		}
 		/**
 		//POV d-pad y-axis
 		if (humanControl.joystickAux.getRawAxis(5)<0 && !sensors.elevationLowSwitch.getState()) {

@@ -13,7 +13,7 @@ public class RobotTemplate extends IterativeRobot  {
 
 	// Constants
 	public static final String ip = "10.1.78.13";
-	public static final String port = "178";
+	public static final String port = "1780";
 
 	// components
 	private Drivetrain drivetrain;
@@ -44,8 +44,8 @@ public class RobotTemplate extends IterativeRobot  {
 
 	public void robotInit() {
 		// components
-		drivetrain = new Drivetrain(motors,humanControl,pneumatics);
-		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
+		drivetrain = new Drivetrain(motors, humanControl, pneumatics);
+		shooter = new Shooter(motors, sensors, humanControl, pneumatics);
 
 		// dashboard
 		driverStation = DriverStation.getInstance();
@@ -72,6 +72,7 @@ public class RobotTemplate extends IterativeRobot  {
 		if(testMode){
 			pneumatics.setBothGears(2);
 		}
+
 		// components
 		drivetrain = new Drivetrain(motors,humanControl,pneumatics);
 		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
@@ -86,13 +87,11 @@ public class RobotTemplate extends IterativeRobot  {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		if(!sensors.pressureSwitch.getState()){ //runs contuniously
+		if (!sensors.pressureSwitch.getState()) { //runs contuniously
 			spikes.compressorRelay.set(Relay.Value.kOff);
-		}
-		else{ //state == true 
+		} else { //state == true 
 			spikes.compressorRelay.set(Relay.Value.kOn);
 		}
-
 	}
 
 	/**
@@ -100,10 +99,9 @@ public class RobotTemplate extends IterativeRobot  {
 	 */
 	public void teleopPeriodic() {
 		drivetrain.drive();
-		shooter.run(); //if joystick trigger == true, fire
+		shooter.run();
 		watchdog.feed();
 
-		printLimitSwitches();
 		//mdsout.println(DriverStationLCD.Line.kUser1, 1, "Position: " + oculusClient.request());
 		//dsout.println(DriverStationLCD.Line.kUser1, 1, "Limit Switch: " + limitSwitch);
 		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
@@ -115,30 +113,24 @@ public class RobotTemplate extends IterativeRobot  {
 		}
 		dsout.updateLCD();
 
-		if(humanControl.joystickMain.getRawButton(5)){ //manual override for compressor
+		if (humanControl.joystickMain.getRawButton(5)) { //manual override for compressor
 			System.out.println("on");
 			spikes.compressorRelay.set(Relay.Value.kOn);
-		} else	{
+		} else {
 			spikes.compressorRelay.set(Relay.Value.kOff);
 		}
 
-		//System.out.println(sensors.pressureSwitch.getState());
-		
-		
-		if(!sensors.pressureSwitch.getState()){ //runs contuniously
+		if (!sensors.pressureSwitch.getState()) { //runs contuniously
 			spikes.compressorRelay.set(Relay.Value.kOff);
-		}
-		else{ //state == true 
+		} else { //state == true 
 			spikes.compressorRelay.set(Relay.Value.kOn);
 		}
-		
-		
-		
 	}
-	public String printLimitSwitches()
-	{
-		System.out.println(sensors.elevationHighSwitch.getState() + "\t" + sensors.elevationLoadSwitch.getState() + "\t" + sensors.elevationLowSwitch.getState());
-		return (sensors.elevationHighSwitch.getState() + "\t" + sensors.elevationLoadSwitch.getState() + "\t" + sensors.elevationLowSwitch.getState());
+
+	public void printLimitSwitches() {
+		System.out.print(sensors.elevationHighSwitch.getState() + "\t");
+		System.out.print(sensors.elevationLoadSwitch.getState() + "\t");
+		System.out.println(sensors.elevationLowSwitch.getState());
 	}
 
 }
