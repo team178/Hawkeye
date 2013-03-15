@@ -17,8 +17,7 @@ public class Shooter
 	private boolean isShooterOn;
 	private boolean isPressedA;
 
-	public Shooter(Motors motors, Sensors sensors, HumanControl humanControl, Pneumatics pneumatics)
-	{
+	public Shooter(Motors motors, Sensors sensors, HumanControl humanControl, Pneumatics pneumatics) {
 		this.pneumatics = pneumatics;
 		this.motors = motors;
 		this.sensors = sensors;
@@ -26,6 +25,20 @@ public class Shooter
 
 		this.isShooterOn = false;
 		this.isPressedA = false;
+	}
+
+	public boolean isShooterOn() {
+		return this.isShooterOn;
+	}
+
+	public void shooterStart(){
+		motors.shooterOne.set(-1.0);
+		motors.shooterTwo.set(-1.0);
+	}
+
+	public void shooterStop(){
+		motors.shooterOne.set(0.0);
+		motors.shooterTwo.set(0.0);
 	}
 
 	public void run() {
@@ -137,14 +150,4 @@ public class Shooter
 		*/
 		
 	}
-	
-	public void shooterStart(){
-		motors.shooterOne.set(-1.0);
-		motors.shooterTwo.set(-1.0);
-	}
-	 public void shooterStop(){
-		motors.shooterOne.set(0.0);
-		motors.shooterTwo.set(0.0);
-	}
-	
 }

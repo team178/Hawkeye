@@ -86,11 +86,27 @@ public class RobotTemplate extends IterativeRobot  {
 	/**
 	 * This function is called periodically during autonomous
 	 */
+	boolean autonomousPeriodComplete = false;
 	public void autonomousPeriodic() {
+		
 		if (!sensors.pressureSwitch.getState()) { //runs contuniously
 			spikes.compressorRelay.set(Relay.Value.kOff);
 		} else { //state == true 
 			spikes.compressorRelay.set(Relay.Value.kOn);
+		}
+		if (!autonomousPeriodComplete) {
+			try {
+				shooter.shooterStart();
+				Thread.sleep(8000);
+				pneumatics.frisbeeLoader.set(true);
+				Thread.sleep(500);
+				pneumatics.frisbeeLoader.set(false);
+				Thread.sleep(500);
+				shooter.shooterStop();
+			} catch (InterruptedException ex) {
+				ex.printStackTrace();
+			}
+			autonomousPeriodComplete = true;
 		}
 	}
 
@@ -103,14 +119,19 @@ public class RobotTemplate extends IterativeRobot  {
 		watchdog.feed();
 
 		//mdsout.println(DriverStationLCD.Line.kUser1, 1, "Position: " + oculusClient.request());
-		//dsout.println(DriverStationLCD.Line.kUser1, 1, "Limit Switch: " + limitSwitch);
 		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
 		dsout.println(DriverStationLCD.Line.kUser1, 1, "Pressure: " + sensors.pressureSwitch.getState());
-		if (sensors.elevationLoadSwitch.getState()) {
+
+		if (sensors.elevationLoadSwitch.getState())
 			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch: Presssed");
-		} else {
-			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch: Off");
-		}
+		else
+			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch: Off     ");
+
+		if (shooter.isShooterOn())
+			dsout.println(DriverStationLCD.Line.kUser4, 1, "Shooter: on ");
+		else
+			dsout.println(DriverStationLCD.Line.kUser4, 1, "Shooter: off");
+
 		dsout.updateLCD();
 
 		if (humanControl.joystickMain.getRawButton(5)) { //manual override for compressor
