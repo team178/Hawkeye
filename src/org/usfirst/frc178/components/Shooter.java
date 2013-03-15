@@ -1,5 +1,6 @@
 package org.usfirst.frc178.components;
 
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import org.usfirst.frc178.devices.*;
 import org.usfirst.frc178.*;
 /**
@@ -12,6 +13,9 @@ public class Shooter
 	private Motors motors;
 	private Sensors sensors;
 	private HumanControl humanControl;
+	
+	private boolean isShooterOn;
+	private boolean isPressedA;
 
 	public Shooter(Motors motors, Sensors sensors, HumanControl humanControl, Pneumatics pneumatics)
 	{
@@ -19,6 +23,9 @@ public class Shooter
 		this.motors = motors;
 		this.sensors = sensors;
 		this.humanControl = humanControl;
+
+		this.isShooterOn = false;
+		this.isPressedA = false;
 	}
 
 	public void run() {
@@ -31,35 +38,45 @@ public class Shooter
 		} else {
 			motors.elevator.set(0.0);
 		}
-		if (humanControl.joystickMain.getRawButton(11) && !sensors.elevationLowSwitch.getState()) {
-			motors.elevator.set(-1.0); // down
-		} else if (humanControl.joystickMain.getRawButton(12) && !sensors.elevationHighSwitch.getState()) {
-			motors.elevator.set(1.0); // up
-		} else {
-			motors.elevator.set(0.0);
-		}
 
 			/*System.out.print(sensors.elevationHighSwitch.getState() + "\t");
 			System.out.print(sensors.elevationLoadSwitch.getState() + "\t");
 			System.out.println(sensors.elevationLowSwitch.getState());*/
 
-		if(humanControl.joystickAux.getTrigger()){
+		/*if(humanControl.joystickAux.getTrigger()){
 			shooterStart();
 		}
 		else{
 			shooterStop();
-		}
+		}*/
 	}
 	/**
 	 * aux controller
 	 * receives button inputs
 	 */
-	public void aux()
-	{
-		if(humanControl.joystickAux.getRawButton(1)){	//button A
-		//auto fire
+	public void aux() {
+		if (isShooterOn) {
+			System.out.println("on");
+			shooterStart();
+		} else {
+			shooterStop();
+			System.out.println("off");
 		}
-		
+
+		if (humanControl.joystickAux.getRawButton(1)){	//button A
+			if (isPressedA == false) {
+				if (isShooterOn == true) {
+					isShooterOn = false;
+				} else if (isShooterOn == false) {
+					isShooterOn = true;
+				}
+			}
+
+			isPressedA = true;
+		} else {
+			isPressedA = false;
+		}
+
 		//breech
 		pneumatics.frisbeeLoader.set(humanControl.joystickAux.getRawButton(2));	//button B
 		
@@ -70,8 +87,9 @@ public class Shooter
 		}
 		
 
-		if (humanControl.joystickAux.getRawButton(4)) { // button y  
+		if (humanControl.joystickAux.getRawButton(4) && !sensors.elevationLoadSwitch.getState()) { // button y  
 		//auto aim
+			motors.elevator.set(1.0);
 		}
 		
 		if(humanControl.joystickAux.getRawButton(5)){	//button LeftBumper
@@ -85,13 +103,13 @@ public class Shooter
 		else{
 		//autospin up
 			//if there are frisbees, keep spinning
-			if(sensors.feederPhoto.analog.getVoltage() > 0.4){	//somewhere between 0.4 and 2.5
+			/*if(sensors.feederPhoto.analog.getVoltage() > 0.4){	//somewhere between 0.4 and 2.5
 				shooterStart();
 			}
 			else if(!humanControl.joystickAux.getTrigger()){	//else, don't spin
 				shooterStop();
 			}
-			else{}
+			else{}*/
 		}
 		
 		if(humanControl.joystickAux.getRawButton(7)){	//button Back

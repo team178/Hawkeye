@@ -107,9 +107,9 @@ public class RobotTemplate extends IterativeRobot  {
 		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
 		dsout.println(DriverStationLCD.Line.kUser1, 1, "Pressure: " + sensors.pressureSwitch.getState());
 		if (sensors.elevationLoadSwitch.getState()) {
-			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch is PRESSED!!!");
+			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch: Presssed");
 		} else {
-			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch is not pressed");
+			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch: Off");
 		}
 		dsout.updateLCD();
 
