@@ -50,7 +50,7 @@ public class Drivetrain  {
 	public void drive() {
 		// Shift to high gear when pressing trigger
 		pneumatics.shiftTo( humanControl.joystickMain.getTrigger() );
-		pneumatics.shiftTo(humanControl.joystickMain.getRawButton(2));
+		//pneumatics.shiftTo(humanControl.joystickMain.getRawButton(2));
 
 		robotX = -humanControl.joystickMain.getX();
 		robotY = -humanControl.joystickMain.getY();
@@ -61,6 +61,16 @@ public class Drivetrain  {
 		motors.backLeft.set(   (-(robotZ) + (robotY)) );
 		motors.frontRight.set( (-(robotZ) - (robotY)) );
 		motors.backRight.set(  (-(robotZ) - (robotY)) );
+		
+		double halfSpeed = 0.625;
+		if(humanControl.joystickMain.getRawButton(2))
+		{
+		// (-(Rotate) + (Forward Speed))
+		motors.frontLeft.set(halfSpeed *  (-(robotZ) + (robotY)) );
+		motors.backLeft.set(halfSpeed *   (-(robotZ) + (robotY)) );
+		motors.frontRight.set(halfSpeed * (-(robotZ) - (robotY)) );
+		motors.backRight.set(halfSpeed *  (-(robotZ) - (robotY)) );
+		}
 	}
 
 	/**

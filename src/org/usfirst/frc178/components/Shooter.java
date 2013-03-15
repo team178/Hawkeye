@@ -25,6 +25,8 @@ public class Shooter
 		this.aux();
 
 		// Move and prevent the shooter from moving past its limit
+		humanControl.joystickMain.getRawButton(3);
+		humanControl.joystickMain.getRawButton(4);
 		if (humanControl.joystickMain.getRawButton(11) && !sensors.elevationLowSwitch.getState()) {
 			motors.elevator.set(-1.0); // down
 		} else if (humanControl.joystickMain.getRawButton(12) && !sensors.elevationHighSwitch.getState()) {
@@ -58,24 +60,25 @@ public class Shooter
 		pneumatics.frisbeeLoader.set(humanControl.joystickAux.getRawButton(2));	//button B
 		
 		if(humanControl.joystickAux.getRawButton(3)){	//button X
-		//auto aim
-		}
-
-		if (humanControl.joystickAux.getRawButton(4)) { // button y  
 			motors.feederServo.set(0.0);
 		} else {
 			motors.feederServo.set(0.5);
+		}
+		
+
+		if (humanControl.joystickAux.getRawButton(4)) { // button y  
+		//auto aim
 		}
 		
 		if(humanControl.joystickAux.getRawButton(5)){	//button LeftBumper
 		//extend hopper
 			pneumatics.hopper.set(true);
 		}
-		else{
-			pneumatics.hopper.set(false);
-		}
 		
 		if(humanControl.joystickAux.getRawButton(6)){	//button RightBumper
+			pneumatics.hopper.set(false);
+		}
+		else{
 		//autospin up
 			//if there are frisbees, keep spinning
 			if(sensors.feederPhoto.analog.getVoltage() > 0.4){	//somewhere between 0.4 and 2.5
@@ -99,19 +102,19 @@ public class Shooter
 		if(humanControl.joystickAux.getRawButton(10)){	//button RightAnalogStickButton
 		}
 		
-		/**
 		//POV d-pad x-axis
-		if (humanControl.joystickAux.getRawAxis(5)<0 && !sensors.elevationLowSwitch.getState()) {
+		if (humanControl.joystickAux.getRawAxis(6)<0 && !sensors.elevationLowSwitch.getState()) {
 			motors.elevator.set(-1.0); // down
-		} else if (humanControl.joystickAux.getRawAxis(5)>0 && !sensors.elevationHighSwitch.getState()) {
+		} else if (humanControl.joystickAux.getRawAxis(6)>0 && !sensors.elevationHighSwitch.getState()) {
 			motors.elevator.set(1.0); // up
 		} else {
 			motors.elevator.set(0.0);
 		}
+		/**
 		//POV d-pad y-axis
-		if (humanControl.joystickAux.getRawAxis(6)<0 && !sensors.elevationLowSwitch.getState()) {
+		if (humanControl.joystickAux.getRawAxis(5)<0 && !sensors.elevationLowSwitch.getState()) {
 			motors.elevator.set(-1.0); // down
-		} else if (humanControl.joystickAux.getRawAxis(6)>0 && !sensors.elevationHighSwitch.getState()) {
+		} else if (humanControl.joystickAux.getRawAxis(5)>0 && !sensors.elevationHighSwitch.getState()) {
 			motors.elevator.set(1.0); // up
 		} else {
 			motors.elevator.set(0.0);
