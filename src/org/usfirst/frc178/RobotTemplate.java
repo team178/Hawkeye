@@ -40,6 +40,9 @@ public class RobotTemplate extends IterativeRobot  {
 
 	private Watchdog watchdog;
 
+	private Timer autoTimer;
+	private boolean timerStarted;
+
 	private boolean testMode = false;
 
 	public void robotInit() {
@@ -73,6 +76,9 @@ public class RobotTemplate extends IterativeRobot  {
 			pneumatics.setBothGears(2);
 		}
 
+		autoTimer = new Timer();
+		timerStarted = false;
+
 		// components
 		drivetrain = new Drivetrain(motors,humanControl,pneumatics);
 		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
@@ -86,7 +92,6 @@ public class RobotTemplate extends IterativeRobot  {
 	/**
 	 * This function is called periodically during autonomous
 	 */
-	boolean autonomousPeriodComplete = false;
 	public void autonomousPeriodic() {
 		
 		if (!sensors.pressureSwitch.getState()) { //runs contuniously
@@ -94,20 +99,74 @@ public class RobotTemplate extends IterativeRobot  {
 		} else { //state == true 
 			spikes.compressorRelay.set(Relay.Value.kOn);
 		}
-		if (!autonomousPeriodComplete) {
-			try {
-				shooter.shooterStart();
-				Thread.sleep(8000);
-				pneumatics.frisbeeLoader.set(true);
-				Thread.sleep(500);
-				pneumatics.frisbeeLoader.set(false);
-				Thread.sleep(500);
-				shooter.shooterStop();
-			} catch (InterruptedException ex) {
-				ex.printStackTrace();
-			}
-			autonomousPeriodComplete = true;
+
+		if (this.timerStarted == false) {
+			autoTimer.start();
+			this.timerStarted = true;
 		}
+
+		System.out.println(autoTimer.get());
+
+		if (autoTimer.get() < 5) {
+			shooter.shooterStart();
+			// nothing, wait for shooter to start
+		} else if (autoTimer.get() < 5.5) {
+			pneumatics.frisbeeLoader.set(true);
+			System.out.println("1");
+		} else if (autoTimer.get() < 6) {
+			pneumatics.frisbeeLoader.set(false);
+			System.out.println("0");
+		} else if (autoTimer.get() < 6.5) {
+			motors.feederServo.set(0.0);
+		} else if (autoTimer.get() < 7.5) {
+			motors.feederServo.set(0.5);
+		} else if (autoTimer.get() < 10) {
+			//wait for 2.5sec
+		} else if (autoTimer.get() < 10.5) {
+			pneumatics.frisbeeLoader.set(true);
+		} else if (autoTimer.get() < 11) {
+			pneumatics.frisbeeLoader.set(false);
+		} else if (autoTimer.get() < 11.5) {
+			motors.feederServo.set(0.0);
+		} else if (autoTimer.get() < 12) {
+			motors.feederServo.set(0.5);
+		} else if (autoTimer.get() < 13.5) {
+			//wait for 1.5sec
+		} else if (autoTimer.get() < 14) {
+			pneumatics.frisbeeLoader.set(true);
+		} else if (autoTimer.get() < 14.5) {
+			pneumatics.frisbeeLoader.set(false);
+		} else {
+			shooter.shooterStop();
+		}
+
+		/*
+			shooter.shooterStart();
+			Thread.sleep(5000);
+			pneumatics.frisbeeLoader.set(true);
+			Thread.sleep(500);
+			pneumatics.frisbeeLoader.set(false);
+			Thread.sleep(500);
+			motors.feederServo.set(0.0);
+			Thread.sleep(1000);
+			motors.feederServo.set(0.5);
+			Thread.sleep(3000);
+			pneumatics.frisbeeLoader.set(true);
+			Thread.sleep(500);
+			pneumatics.frisbeeLoader.set(false);
+			Thread.sleep(500);
+			motors.feederServo.set(0.0);
+			Thread.sleep(1000);
+			motors.feederServo.set(0.5);
+			Thread.sleep(2000);
+			pneumatics.frisbeeLoader.set(true);
+			Thread.sleep(500);
+			pneumatics.frisbeeLoader.set(false);
+			
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
+			shooter.shooterStop();
+		}*/
 	}
 
 	/**
@@ -128,9 +187,9 @@ public class RobotTemplate extends IterativeRobot  {
 			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch: Off     ");
 
 		if (shooter.isShooterOn())
-			dsout.println(DriverStationLCD.Line.kUser4, 1, "Shooter: on ");
+			dsout.println(DriverStationLCD.Line.kUser4, 1, "Shooter: On ");
 		else
-			dsout.println(DriverStationLCD.Line.kUser4, 1, "Shooter: off");
+			dsout.println(DriverStationLCD.Line.kUser4, 1, "Shooter: Off");
 
 		dsout.updateLCD();
 
