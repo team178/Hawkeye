@@ -1,10 +1,25 @@
 package org.usfirst.frc178;
 
-import org.usfirst.frc178.components.Shooter;
+// Components
 import org.usfirst.frc178.components.Drivetrain;
-import org.usfirst.frc178.custom.*;
-import org.usfirst.frc178.devices.*;
+import org.usfirst.frc178.components.Shooter;
+
+// Custom
+import org.usfirst.frc178.custom.AnalogPressure;
+import org.usfirst.frc178.custom.LimitSwitch;
+import org.usfirst.frc178.custom.OculusClient;
+import org.usfirst.frc178.custom.Photosensor;
+import org.usfirst.frc178.custom.VisionProcessing;
+
+// Dashboard
+import org.usfirst.frc178.dashboard.DashboardHigh;
+
+// Devices
+import org.usfirst.frc178.devices.HumanControl;
 import org.usfirst.frc178.devices.Motors;
+import org.usfirst.frc178.devices.Pneumatics;
+import org.usfirst.frc178.devices.Sensors;
+import org.usfirst.frc178.devices.Spke;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.IterativeRobot;
