@@ -19,7 +19,7 @@ import org.usfirst.frc178.devices.HumanControl;
 import org.usfirst.frc178.devices.Motors;
 import org.usfirst.frc178.devices.Pneumatics;
 import org.usfirst.frc178.devices.Sensors;
-import org.usfirst.frc178.devices.Spke;
+import org.usfirst.frc178.devices.Spike;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.IterativeRobot;
