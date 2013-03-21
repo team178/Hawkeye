@@ -58,8 +58,6 @@ public class RobotTemplate extends IterativeRobot  {
 	private Timer autoTimer;
 	private boolean timerStarted;
 
-	private boolean testMode = false;
-
 	public void robotInit() {
 		// components
 		drivetrain = new Drivetrain(motors, humanControl, pneumatics);
