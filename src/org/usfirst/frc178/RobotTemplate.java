@@ -51,22 +51,17 @@ public class RobotTemplate extends IterativeRobot  {
 	private Sensors sensors;
 	private Spike spikes;
 
-	private Thread visionThread;
-
+	// And finally, the watchdog
 	private Watchdog watchdog;
 
+	// Autonomous event timer
 	private Timer autoTimer;
 	private boolean timerStarted;
 
+	// Off-load vision processing to another thread
+	private Thread visionThread;
+
 	public void robotInit() {
-		// components
-		drivetrain = new Drivetrain(motors, humanControl, pneumatics);
-		shooter = new Shooter(motors, sensors, humanControl, pneumatics);
-
-		// dashboard
-		driverStation = DriverStation.getInstance();
-		//dashboardHigh = new DashboardHigh();
-
 		// custom
 		oculusClient = new OculusClient(ip, port);
 		analogPressure = new AnalogPressure();
@@ -78,23 +73,25 @@ public class RobotTemplate extends IterativeRobot  {
 		sensors = new Sensors();
 		spikes = new Spike();
 
+		// dashboard
+		driverStation = DriverStation.getInstance();
+		//dashboardHigh = new DashboardHigh();
 		dsout = DriverStationLCD.getInstance();
 		dsout.updateLCD();
 
+		// Grab an instance of Watchdog to use
 		watchdog = Watchdog.getInstance();
 
+		// Start in low gear
 		pneumatics.setBothGears(1);
 
-		if(testMode){
-			pneumatics.setBothGears(2);
-		}
-
+		// Autonomous event timer
 		autoTimer = new Timer();
 		timerStarted = false;
 
 		// components
-		drivetrain = new Drivetrain(motors,humanControl,pneumatics);
-		shooter = new Shooter(motors,sensors,humanControl,pneumatics);
+		drivetrain = new Drivetrain(motors, humanControl, pneumatics);
+		shooter = new Shooter(motors, sensors, humanControl, pneumatics);
 		vision = new VisionProcessing(drivetrain, shooter, humanControl, oculusClient);
 
 		/*oculusClient.connect();
@@ -188,7 +185,6 @@ public class RobotTemplate extends IterativeRobot  {
 	public void teleopPeriodic() {
 		drivetrain.drive();
 		shooter.run();
-		watchdog.feed();
 
 		//mdsout.println(DriverStationLCD.Line.kUser1, 1, "Position: " + oculusClient.request());
 		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
@@ -218,6 +214,9 @@ public class RobotTemplate extends IterativeRobot  {
 		} else { //state == true 
 			spikes.compressorRelay.set(Relay.Value.kOn);
 		}
+
+		// We've survived another loop!
+		watchdog.feed();
 	}
 
 	public void printLimitSwitches() {
