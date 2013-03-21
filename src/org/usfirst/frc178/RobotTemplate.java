@@ -35,11 +35,12 @@ public class RobotTemplate extends IterativeRobot  {
 	private Shooter shooter;
 
 	// custom
+	private AnalogPressure analogPressure;
 	private OculusClient oculusClient;
 	private VisionProcessing vision;
 
 	// dashboard
-	DriverStationLCD dsout;
+	private DriverStationLCD dsout;
 	private DriverStation driverStation;
 	//private DashboardHigh dashboardHigh;
 
@@ -49,7 +50,6 @@ public class RobotTemplate extends IterativeRobot  {
 	private Pneumatics pneumatics;
 	private Sensors sensors;
 	private Spike spikes;
-	private AnalogPressure analogPressure;
 
 	private Thread visionThread;
 
