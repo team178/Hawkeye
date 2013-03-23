@@ -28,8 +28,7 @@ public class OculusClient {
 		this.isConnected = false;
 	}
 
-	public void connect() {
-		System.out.println("Connecting to coprocessor");
+	public boolean connect() {
 		try {
 			this.sc = (SocketConnection) Connector.open("socket://" + this.ip + ":" + this.port);
 			sc.setSocketOption(SocketConnection.LINGER, 5);
@@ -38,7 +37,9 @@ public class OculusClient {
 			this.os = sc.openOutputStream();
 
 			this.isConnected = true;
+			return true;
 		} catch (IOException e) {
+			return false;
 		}
 	}
 
@@ -58,11 +59,18 @@ public class OculusClient {
 
 		String result = "no data";
 
-		try {
-			byte[] data = new byte[12];
-			this.is.read(data);
+		if (!this.isConnected()) {
+			return "Not connected";
+		}
 
-			result = new String(data);
+		try {
+			StringBuffer sb = new StringBuffer();
+			int c = 0;
+			while (((c = is.read()) != '\n') && (c != -1)) {
+			   sb.append((char) c);
+			}
+
+			result = sb.toString();
 		} catch (IOException e) {
 		}
 

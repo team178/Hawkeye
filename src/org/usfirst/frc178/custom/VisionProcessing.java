@@ -13,6 +13,7 @@ public class VisionProcessing implements Runnable {
 	private OculusClient oculusClient;
 
 	private Timer timer;
+
 	private boolean connected;
 
 	public VisionProcessing(Drivetrain drivetrain, Shooter shooter, HumanControl humanControl, OculusClient oculusClient) {
@@ -22,24 +23,18 @@ public class VisionProcessing implements Runnable {
 		this.oculusClient = oculusClient;
 
 		this.timer = new Timer();
-		this.connected = false;
 
-		this.timer.start();
+		this.connected = false;
+	}
+
+	public void start() {
+		Thread t = new Thread(this);
+		t.start();
 	}
 
 	public void run() {
+System.out.println("hi");
 
-		while(true) {
-			if (this.timer.get() < 5 && !this.connected) {
-				this.oculusClient.connect();
-				this.connected = true;
-				System.out.println("connecting");
-			}
-
-			if (humanControl.joystickMain.getTrigger()) { // X
-				this.turn();
-			}
-		}
 	}
 
 	public void turn() {

@@ -59,7 +59,7 @@ public class RobotTemplate extends IterativeRobot  {
 	private boolean timerStarted;
 
 	// Off-load vision processing to another thread
-	private Thread visionThread;
+	private boolean visionThreadStarted;
 
 	public void robotInit() {
 		// custom
@@ -94,9 +94,7 @@ public class RobotTemplate extends IterativeRobot  {
 		shooter = new Shooter(motors, sensors, humanControl, pneumatics);
 		vision = new VisionProcessing(drivetrain, shooter, humanControl, oculusClient);
 
-		/*oculusClient.connect();
-		visionThread = new Thread(vision, "Vision Thread");
-		visionThread.start();*/
+		visionThreadStarted = false;
 	}
 
 	/**
@@ -185,6 +183,11 @@ public class RobotTemplate extends IterativeRobot  {
 	public void teleopPeriodic() {
 		drivetrain.drive();
 		shooter.run();
+
+		if (!visionThreadStarted) {
+			vision.start();
+			visionThreadStarted = true;
+		}
 
 		//mdsout.println(DriverStationLCD.Line.kUser1, 1, "Position: " + oculusClient.request());
 		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
