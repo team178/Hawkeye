@@ -33,8 +33,27 @@ public class VisionProcessing implements Runnable {
 	}
 
 	public void run() {
-System.out.println("hi");
+		this.timer.start();
 
+		while (true) {
+			if (!this.connected) {
+				System.out.println("Connecting to coprocessor");
+				boolean error = this.oculusClient.connect();
+				if (error) {
+					this.connected = true;
+				} else {
+					System.err.println("There was an issue connecting to the coprocessor");
+				}
+			}
+
+			if (this.connected) {
+				System.out.println(this.oculusClient.request());
+			}
+
+			if (humanControl.joystickMain.getTrigger()) { // X
+				this.turn();
+			}
+		}
 	}
 
 	public void turn() {
