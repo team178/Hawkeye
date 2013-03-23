@@ -69,11 +69,9 @@ public class Shooter
 	 */
 	public void aux() {
 		if (isShooterOn) {
-			System.out.println("on");
 			shooterStart();
 		} else {
 			shooterStop();
-			System.out.println("off");
 		}
 
 		if (humanControl.joystickAux.getRawButton(1)){	//button A
