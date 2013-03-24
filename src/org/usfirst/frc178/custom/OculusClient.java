@@ -28,19 +28,14 @@ public class OculusClient {
 		this.isConnected = false;
 	}
 
-	public boolean connect() {
-		try {
-			this.sc = (SocketConnection) Connector.open("socket://" + this.ip + ":" + this.port);
-			sc.setSocketOption(SocketConnection.LINGER, 5);
+	public void connect() throws IOException {
+		this.sc = (SocketConnection) Connector.open("socket://" + this.ip + ":" + this.port);
+		sc.setSocketOption(SocketConnection.LINGER, 5);
 
-			this.is = sc.openInputStream();
-			this.os = sc.openOutputStream();
+		this.is = sc.openInputStream();
+		this.os = sc.openOutputStream();
 
-			this.isConnected = true;
-			return true;
-		} catch (IOException e) {
-			return false;
-		}
+		this.isConnected = true;
 	}
 
 	public void disconnect() throws IOException {
@@ -65,13 +60,16 @@ public class OculusClient {
 
 		try {
 			StringBuffer sb = new StringBuffer();
-			int c = 0;
-			while (((c = is.read()) != '\n') && (c != -1)) {
-			   sb.append((char) c);
+			int c;
+			while ( ((c = is.read()) != '\n') && (c != -1) ) {
+				if (c != '\r') {
+					sb.append((char) c);
+				}
 			}
 
 			result = sb.toString();
 		} catch (IOException e) {
+			System.out.println(e);
 		}
 
 		return result;

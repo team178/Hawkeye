@@ -4,6 +4,7 @@ import org.usfirst.frc178.components.*;
 import org.usfirst.frc178.devices.*;
 
 import edu.wpi.first.wpilibj.*;
+import java.io.IOException;
 
 public class VisionProcessing implements Runnable {
 
@@ -11,20 +12,20 @@ public class VisionProcessing implements Runnable {
 	private Shooter shooter;
 	private HumanControl humanControl;
 	private OculusClient oculusClient;
+	private DriverStation driverStation;
 
-	private Timer timer;
-
-	private boolean connected;
+	private boolean isEnabled;
+	private boolean isConnected;
 
 	public VisionProcessing(Drivetrain drivetrain, Shooter shooter, HumanControl humanControl, OculusClient oculusClient) {
 		this.drivetrain = drivetrain;
 		this.shooter = shooter;
 		this.humanControl = humanControl;
 		this.oculusClient = oculusClient;
+		this.driverStation = DriverStation.getInstance();
 
-		this.timer = new Timer();
-
-		this.connected = false;
+		this.isEnabled = false;
+		this.isConnected = false;
 	}
 
 	public void start() {
@@ -33,25 +34,47 @@ public class VisionProcessing implements Runnable {
 	}
 
 	public void run() {
-		this.timer.start();
-
 		while (true) {
-			if (!this.connected) {
-				System.out.println("Connecting to coprocessor");
-				boolean error = this.oculusClient.connect();
-				if (error) {
-					this.connected = true;
-				} else {
-					System.err.println("There was an issue connecting to the coprocessor");
-				}
-			}
 
-			if (this.connected) {
-				System.out.println(this.oculusClient.request());
+			this.disableCheck();
+
+			if (this.isConnected) {
+				String packet = this.oculusClient.request();
+				if (!packet.equals("")) {
+					System.out.println(packet);
+				}
 			}
 
 			if (humanControl.joystickMain.getTrigger()) { // X
 				this.turn();
+			}
+		}
+	}
+
+	/**
+	 * Continuously check if the robot is disabled
+	 */
+	private void disableCheck() {
+		if (this.isEnabled && this.driverStation.isDisabled()) {
+			this.isEnabled = false;
+			try {
+				this.oculusClient.disconnect();
+				this.isConnected = false;
+				System.out.println("Disconnected from coprocessor");
+			} catch (IOException e) {
+				System.err.println("Disconnect failed.. what..?");
+			}
+		} else if (!this.isEnabled && this.driverStation.isEnabled()) {
+			System.out.println("Connecting to coprocessor");
+			this.isEnabled = true;
+			if (!this.isConnected) {
+				try {
+					this.oculusClient.connect();
+					this.isConnected = true;
+					System.out.println("Connect sucess");
+				} catch (IOException e) {
+					System.err.println("Connect failed");
+				}
 			}
 		}
 	}
