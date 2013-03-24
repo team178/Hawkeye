@@ -113,8 +113,6 @@ public class RobotTemplate extends IterativeRobot  {
 			this.timerStarted = true;
 		}
 
-		System.out.println(autoTimer.get());
-
 		if (autoTimer.get() < 5) {
 			shooter.shooterStart();
 			// nothing, wait for shooter to start
@@ -147,34 +145,6 @@ public class RobotTemplate extends IterativeRobot  {
 		} else {
 			shooter.shooterStop();
 		}
-
-		/*
-			shooter.shooterStart();
-			Thread.sleep(5000);
-			pneumatics.frisbeeLoader.set(true);
-			Thread.sleep(500);
-			pneumatics.frisbeeLoader.set(false);
-			Thread.sleep(500);
-			motors.feederServo.set(0.0);
-			Thread.sleep(1000);
-			motors.feederServo.set(0.5);
-			Thread.sleep(3000);
-			pneumatics.frisbeeLoader.set(true);
-			Thread.sleep(500);
-			pneumatics.frisbeeLoader.set(false);
-			Thread.sleep(500);
-			motors.feederServo.set(0.0);
-			Thread.sleep(1000);
-			motors.feederServo.set(0.5);
-			Thread.sleep(2000);
-			pneumatics.frisbeeLoader.set(true);
-			Thread.sleep(500);
-			pneumatics.frisbeeLoader.set(false);
-			
-		} catch (InterruptedException ex) {
-			ex.printStackTrace();
-			shooter.shooterStop();
-		}*/
 	}
 
 	/**
