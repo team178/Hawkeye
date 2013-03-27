@@ -1,5 +1,6 @@
 package org.usfirst.frc178.components;
 
+import edu.wpi.first.wpilibj.Encoder;
 import org.usfirst.frc178.devices.*;
 
 public class Drivetrain  {
@@ -120,5 +121,21 @@ public class Drivetrain  {
 		motors.backLeft.set(robotZ);
 		motors.frontRight.set(robotZ);
 		motors.backRight.set(robotZ);
+	}
+	
+	//Eric's auto-aim code
+	public double proportaionalShooterControl(double setPoint, Encoder encoder){
+		double currentRate = encoder.getRate();
+		double error = setPoint - currentRate;
+
+		double gain = 100;
+		
+		double output = error * gain + setPoint;
+		double scaledOutput =(output/(setPoint * gain + setPoint));
+		return (scaledOutput * scaledOutput * scaledOutput);  //scaledOutput ^ 3
+	}
+	
+	public double proportaionalTurnControl(double setPoint) {
+		return (setPoint * setPoint * setPoint);  //setPoint ^ 3
 	}
 }
