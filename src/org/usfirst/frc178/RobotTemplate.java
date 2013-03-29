@@ -5,6 +5,7 @@ import org.usfirst.frc178.components.Drivetrain;
 import org.usfirst.frc178.components.Shooter;
 
 // Custom
+import org.usfirst.frc178.custom.*;
 import org.usfirst.frc178.custom.AnalogPressure;
 import org.usfirst.frc178.custom.LimitSwitch;
 import org.usfirst.frc178.custom.OculusClient;
@@ -57,6 +58,7 @@ public class RobotTemplate extends IterativeRobot  {
 	// Autonomous event timer
 	private Timer autoTimer;
 	private boolean timerStarted;
+	private boolean autoRan;
 
 	// Off-load vision processing to another thread
 	private boolean visionThreadStarted;
@@ -88,6 +90,7 @@ public class RobotTemplate extends IterativeRobot  {
 		// Autonomous event timer
 		autoTimer = new Timer();
 		timerStarted = false;
+		autoRan = false;
 
 		// components
 		drivetrain = new Drivetrain(motors, humanControl, pneumatics);
@@ -101,6 +104,11 @@ public class RobotTemplate extends IterativeRobot  {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
+
+		System.out.println("Running auto");
+		if (autoRan) {
+			return;
+		}
 		
 		if (!sensors.pressureSwitch.getState()) { //runs contuniously
 			spikes.compressorRelay.set(Relay.Value.kOff);
@@ -112,38 +120,31 @@ public class RobotTemplate extends IterativeRobot  {
 			autoTimer.start();
 			this.timerStarted = true;
 		}
-
+		
+		shooter.autoLoad();
+		
 		if (autoTimer.get() < 5) {
 			shooter.shooterStart();
 			// nothing, wait for shooter to start
 		} else if (autoTimer.get() < 5.5) {
 			pneumatics.frisbeeLoader.set(true);
-			System.out.println("1");
 		} else if (autoTimer.get() < 6) {
 			pneumatics.frisbeeLoader.set(false);
-			System.out.println("0");
-		} else if (autoTimer.get() < 6.5) {
-			motors.feederServo.set(0.0);
-		} else if (autoTimer.get() < 7.5) {
-			motors.feederServo.set(0.5);
-		} else if (autoTimer.get() < 10) {
-			//wait for 2.5sec
+		} else if (autoTimer.get() < 10.0) {
+			//wait for 4 seconds
 		} else if (autoTimer.get() < 10.5) {
 			pneumatics.frisbeeLoader.set(true);
-		} else if (autoTimer.get() < 11) {
+		} else if (autoTimer.get() < 11.0) {
 			pneumatics.frisbeeLoader.set(false);
-		} else if (autoTimer.get() < 11.5) {
-			motors.feederServo.set(0.0);
-		} else if (autoTimer.get() < 12) {
-			motors.feederServo.set(0.5);
-		} else if (autoTimer.get() < 13.5) {
-			//wait for 1.5sec
-		} else if (autoTimer.get() < 14) {
-			pneumatics.frisbeeLoader.set(true);
+		} else if (autoTimer.get() < 14.0) {
+			//wait for 4 seconds
 		} else if (autoTimer.get() < 14.5) {
+			pneumatics.frisbeeLoader.set(true);
+		} else if (autoTimer.get() < 14.9) {
 			pneumatics.frisbeeLoader.set(false);
 		} else {
 			shooter.shooterStop();
+			motors.feederServo.set(0.5);
 		}
 	}
 
@@ -151,6 +152,7 @@ public class RobotTemplate extends IterativeRobot  {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		
 		drivetrain.drive();
 		shooter.run();
 
@@ -163,15 +165,18 @@ public class RobotTemplate extends IterativeRobot  {
 		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
 		dsout.println(DriverStationLCD.Line.kUser1, 1, "Pressure: " + sensors.pressureSwitch.getState());
 
-		if (sensors.elevationLoadSwitch.getState())
+		if (sensors.elevationLoadSwitch.getState()) {
 			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch: Presssed");
-		else
+		} else {
 			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch: Off     ");
+		}
 
-		if (shooter.isShooterOn())
+		if (shooter.isShooterOn()) {
 			dsout.println(DriverStationLCD.Line.kUser4, 1, "Shooter: On ");
-		else
+		} else {
 			dsout.println(DriverStationLCD.Line.kUser4, 1, "Shooter: Off");
+		}
+		dsout.println(DriverStationLCD.Line.kUser5, 1, "Encoder: " + sensors.shooterOneEncoder.getRate() + "\tVolts");
 
 		dsout.updateLCD();
 
@@ -191,6 +196,8 @@ public class RobotTemplate extends IterativeRobot  {
 		// We've survived another loop!
 		watchdog.feed();
 	}
+	
+
 
 	public void printLimitSwitches() {
 		System.out.print(sensors.elevationHighSwitch.getState() + "\t");

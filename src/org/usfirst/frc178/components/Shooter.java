@@ -1,6 +1,8 @@
 package org.usfirst.frc178.components;
 
 import edu.wpi.first.wpilibj.DriverStationLCD;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
 import org.usfirst.frc178.devices.*;
 import org.usfirst.frc178.*;
 /**
@@ -13,9 +15,12 @@ public class Shooter
 	private Motors motors;
 	private Sensors sensors;
 	private HumanControl humanControl;
-	
+
 	private boolean isShooterOn;
 	private boolean isPressedA;
+	private boolean isAutoLoading;
+
+	private PIDController shooterOnePID;
 
 	public Shooter(Motors motors, Sensors sensors, HumanControl humanControl, Pneumatics pneumatics) {
 		this.pneumatics = pneumatics;
@@ -25,6 +30,18 @@ public class Shooter
 
 		this.isShooterOn = false;
 		this.isPressedA = false;
+		this.isAutoLoading = true;
+
+		/*double Kp = 0.5;
+		double Ki = 0;
+		double Kd = 0;
+
+		sensors.shooterOneEncoder.start();
+		sensors.shooterOneEncoder.setPIDSourceParameter(Encoder.PIDSourceParameter.kRate);
+
+		shooterOnePID = new PIDController(Kp, Ki, Kd, sensors.shooterOneEncoder, motors.shooterOne);
+		shooterOnePID.enable();
+		shooterOnePID.setInputRange(0, 100);*/
 	}
 
 	public boolean isShooterOn() {
@@ -34,6 +51,7 @@ public class Shooter
 	public void shooterStart(){
 		motors.shooterOne.set(-1.0);
 		motors.shooterTwo.set(-1.0);
+		sensors.printEncoders();
 	}
 
 	public void shooterStop(){
@@ -49,19 +67,19 @@ public class Shooter
 		} else if (humanControl.joystickMain.getRawButton(4) && !sensors.elevationHighSwitch.getState()) {
 			motors.elevator.set(1.0); // up
 		} else {
-			motors.elevator.set(0.0);
+			if (humanControl.joystickMain.getRawButton(5) && !sensors.elevationLowSwitch.getState()) {
+				motors.elevator.set(-0.5); // down
+			} else if (humanControl.joystickMain.getRawButton(6) && !sensors.elevationHighSwitch.getState()) {
+				motors.elevator.set(0.5); // up
+			} else {
+				motors.elevator.set(0.0);
+			}
 		}
+		
 
 			/*System.out.print(sensors.elevationHighSwitch.getState() + "\t");
 			System.out.print(sensors.elevationLoadSwitch.getState() + "\t");
 			System.out.println(sensors.elevationLowSwitch.getState());*/
-
-		/*if(humanControl.joystickAux.getTrigger()){
-			shooterStart();
-		}
-		else{
-			shooterStop();
-		}*/
 	}
 	/**
 	 * aux controller
@@ -74,6 +92,8 @@ public class Shooter
 			shooterStop();
 		}
 
+		
+		
 		if (humanControl.joystickAux.getRawButton(1)){	//button A
 			if (isPressedA == false) {
 				if (isShooterOn == true) {
@@ -87,6 +107,19 @@ public class Shooter
 		} else {
 			isPressedA = false;
 		}
+		
+		//Auto shooter speedupcf\
+		if (humanControl.joystickAux.getRawButton(8)) {
+			//Eric's Crap code
+			/*double shooterPIDSpeed = sensors.proportaionalShooterControl(-26.0 * 10, sensors.shooterOneEncoder);
+			System.out.println(sensors.shooterOneEncoder.getRate() + "\t" + shooterPIDSpeed);
+			motors.shooterOne.set(-shooterPIDSpeed);
+			motors.shooterTwo.set(-shooterPIDSpeed);*/
+
+
+			//Brandon's less crap
+			//shooterOnePID.setSetpoint(50);
+		}
 
 		//breech
 		pneumatics.frisbeeLoader.set(humanControl.joystickAux.getRawButton(2));	//button B
@@ -94,10 +127,17 @@ public class Shooter
 		if(humanControl.joystickAux.getRawButton(3)){	//button X
 			motors.feederServo.set(0.0);
 		} else {
-			motors.feederServo.set(0.5);
+			motors.feederServo.set(0.5);			
 		}
 		
-
+		if (humanControl.joystickAux.getRawButton(7)) {
+			isAutoLoading = false;
+		}
+		
+		if (isAutoLoading) {
+			autoLoad();
+		}
+		
 		if (humanControl.joystickAux.getRawButton(4) && !sensors.elevationLoadSwitch.getState()) { // button y  
 		//auto aim
 			motors.elevator.set(1.0);
@@ -147,5 +187,14 @@ public class Shooter
 		}
 		*/
 		
+	}
+	
+	public void autoLoad() {
+		//sensors.printPhotocells();
+		if (sensors.shooterPhoto.analog.getAverageValue() > sensors.PHOTOCELL_THRESHOLD) {
+			motors.feederServo.set(0.00);
+		} else {
+			motors.feederServo.set(0.75);
+		}
 	}
 }
