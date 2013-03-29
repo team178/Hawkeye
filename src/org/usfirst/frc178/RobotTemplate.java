@@ -109,7 +109,7 @@ public class RobotTemplate extends IterativeRobot  {
 		if (autoRan) {
 			return;
 		}
-		
+
 		if (!sensors.pressureSwitch.getState()) { //runs contuniously
 			spikes.compressorRelay.set(Relay.Value.kOff);
 		} else { //state == true 
@@ -120,32 +120,32 @@ public class RobotTemplate extends IterativeRobot  {
 			autoTimer.start();
 			this.timerStarted = true;
 		}
-		
+
 		shooter.autoLoad();
-		
-		if (autoTimer.get() < 5) {
-			shooter.shooterStart();
-			// nothing, wait for shooter to start
-		} else if (autoTimer.get() < 5.5) {
-			pneumatics.frisbeeLoader.set(true);
-		} else if (autoTimer.get() < 6) {
-			pneumatics.frisbeeLoader.set(false);
-		} else if (autoTimer.get() < 10.0) {
-			//wait for 4 seconds
-		} else if (autoTimer.get() < 10.5) {
-			pneumatics.frisbeeLoader.set(true);
-		} else if (autoTimer.get() < 11.0) {
-			pneumatics.frisbeeLoader.set(false);
-		} else if (autoTimer.get() < 14.0) {
-			//wait for 4 seconds
-		} else if (autoTimer.get() < 14.5) {
-			pneumatics.frisbeeLoader.set(true);
-		} else if (autoTimer.get() < 14.9) {
-			pneumatics.frisbeeLoader.set(false);
-		} else {
-			shooter.shooterStop();
-			motors.feederServo.set(0.5);
-		}
+
+		shooter.shooterStart();
+		Timer.delay(8);
+
+		pneumatics.frisbeeLoader.set(true);
+		Timer.delay(0.5);
+		pneumatics.frisbeeLoader.set(false);
+
+		Timer.delay(2);
+
+		pneumatics.frisbeeLoader.set(true);
+		Timer.delay(0.5);
+		pneumatics.frisbeeLoader.set(false);
+
+		Timer.delay(2);
+
+		pneumatics.frisbeeLoader.set(true);
+		Timer.delay(0.5);
+		pneumatics.frisbeeLoader.set(false);
+
+		shooter.shooterStop();
+		motors.feederServo.set(0.5);
+
+		autoRan = true; // Prevent autonomous from running again
 	}
 
 	/**
