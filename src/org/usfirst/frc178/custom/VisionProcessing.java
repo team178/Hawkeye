@@ -84,7 +84,7 @@ public class VisionProcessing implements Runnable {
 		double x = Double.parseDouble(str_x);
 		drivetrain.turn(x);
 	}
-	
+
 	public String parseY(String oculusPoint) {
 		return oculusPoint.substring(oculusPoint.indexOf(',') + 1, oculusPoint.indexOf(')') - 1); //Double.parseDouble(oculusPoint.substring(oculusPoint.indexOf(',') + 1, oculusPoint.indexOf(')') - 1));
 	}
