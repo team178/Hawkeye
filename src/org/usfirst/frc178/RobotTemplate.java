@@ -55,11 +55,6 @@ public class RobotTemplate extends IterativeRobot  {
 	// And finally, the watchdog
 	private Watchdog watchdog;
 
-	// Autonomous event timer
-	private Timer autoTimer;
-	private boolean timerStarted;
-	private boolean autoRan;
-
 	public void robotInit() {
 		// custom
 		oculusClient = new OculusClient(ip, port);
@@ -91,20 +86,6 @@ public class RobotTemplate extends IterativeRobot  {
 	}
 
 	public void autonomousInit() {
-		// Autonomous event timer
-		autoTimer = new Timer();
-		autoRan = false;
-
-		// Start timer
-		autoTimer.start();
-	}
-
-	/**
-	 * This function is called periodically during autonomous
-	 */
-	public void autonomousPeriodic() {
-		if (autoRan) return; // Don't run autonomous twice
-
 		if (!sensors.pressureSwitch.getState()) { //runs contuniously
 			spikes.compressorRelay.set(Relay.Value.kOff);
 		} else { //state == true 
@@ -134,8 +115,6 @@ public class RobotTemplate extends IterativeRobot  {
 
 		shooter.shooterStop();
 		motors.feederServo.set(0.5);
-
-		autoRan = true; // Prevent autonomous from running again
 	}
 
 	public void teleopInit() {
