@@ -1,5 +1,6 @@
 package org.usfirst.frc178.custom;
 
+import edu.wpi.first.wpilibj.PIDSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,7 +11,7 @@ import javax.microedition.io.SocketConnection;
  *
  * @author Enforcers
  */
-public class OculusClient {
+public class OculusClient implements PIDSource {
 
 	private String ip;
 	private String port;
@@ -73,6 +74,19 @@ public class OculusClient {
 		}
 
 		return result;
+	}
+
+	public double getY() {
+		String request = request();
+		int beginIndex = request.indexOf(',') + 1;
+		int endIndex = request.length();
+		String offsetY = request.substring(beginIndex, endIndex);
+		
+		return Double.parseDouble(offsetY);
+	}
+
+	public double pidGet() {
+		return getY();
 	}
 
 }

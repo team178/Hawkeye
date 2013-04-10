@@ -14,6 +14,8 @@ public class VisionProcessing implements Runnable {
 	private OculusClient oculusClient;
 	private DriverStation driverStation;
 
+	private PIDController verticalPID;
+
 	private boolean isEnabled;
 	private boolean isConnected;
 
@@ -26,6 +28,8 @@ public class VisionProcessing implements Runnable {
 
 		this.isEnabled = false;
 		this.isConnected = false;
+
+
 	}
 
 	public void start() {
@@ -45,9 +49,6 @@ public class VisionProcessing implements Runnable {
 				}
 			}
 
-			if (humanControl.joystickMain.getTrigger()) { // X
-				this.turn();
-			}
 		}
 	}
 
