@@ -60,9 +60,6 @@ public class RobotTemplate extends IterativeRobot  {
 	private boolean timerStarted;
 	private boolean autoRan;
 
-	// Off-load vision processing to another thread
-	private boolean visionThreadStarted;
-
 	public void robotInit() {
 		// custom
 		oculusClient = new OculusClient(ip, port);
@@ -81,23 +78,23 @@ public class RobotTemplate extends IterativeRobot  {
 		dsout = DriverStationLCD.getInstance();
 		dsout.updateLCD();
 
-		// Grab an instance of Watchdog to use
-		watchdog = Watchdog.getInstance();
-
 		// Start in low gear
 		pneumatics.setBothGears(1);
-
-		// Autonomous event timer
-		autoTimer = new Timer();
-		timerStarted = false;
-		autoRan = false;
 
 		// components
 		drivetrain = new Drivetrain(motors, humanControl, pneumatics);
 		shooter = new Shooter(motors, sensors, humanControl, pneumatics);
 		vision = new VisionProcessing(drivetrain, shooter, humanControl, oculusClient);
 
-		visionThreadStarted = false;
+		// Grab an instance of Watchdog to use
+		watchdog = Watchdog.getInstance();
+	}
+
+	public void autonomousInit() {
+		// Autonomous event timer
+		autoTimer = new Timer();
+		timerStarted = false;
+		autoRan = false;
 	}
 
 	/**
@@ -148,6 +145,10 @@ public class RobotTemplate extends IterativeRobot  {
 		autoRan = true; // Prevent autonomous from running again
 	}
 
+	public void teleopInit() {
+		vision.start();
+	}
+
 	/**
 	 * This function is called periodically during operator control
 	 */
@@ -155,11 +156,6 @@ public class RobotTemplate extends IterativeRobot  {
 		
 		drivetrain.drive();
 		shooter.run();
-
-		if (!visionThreadStarted) {
-			vision.start();
-			visionThreadStarted = true;
-		}
 
 		//mdsout.println(DriverStationLCD.Line.kUser1, 1, "Position: " + oculusClient.request());
 		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
