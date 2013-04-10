@@ -1,5 +1,6 @@
 package org.usfirst.frc178.components;
 
+import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
@@ -187,6 +188,17 @@ public class Shooter
 		}
 		*/
 		
+	}
+
+	public void setExponentialElevator(double elevationSpeed) {
+		double speed = 0;
+		if (elevationSpeed > 0) {
+			speed = MathUtils.pow(elevationSpeed, 2.5);
+		}
+		if (elevationSpeed < 0){
+			speed = -MathUtils.pow(-elevationSpeed, 2.5);
+		}
+		motors.elevator.set(speed);
 	}
 	
 	public void autoLoad() {
