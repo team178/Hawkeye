@@ -93,29 +93,22 @@ public class RobotTemplate extends IterativeRobot  {
 	public void autonomousInit() {
 		// Autonomous event timer
 		autoTimer = new Timer();
-		timerStarted = false;
 		autoRan = false;
+
+		// Start timer
+		autoTimer.start();
 	}
 
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-
-		System.out.println("Running auto");
-		if (autoRan) {
-			return;
-		}
+		if (autoRan) return; // Don't run autonomous twice
 
 		if (!sensors.pressureSwitch.getState()) { //runs contuniously
 			spikes.compressorRelay.set(Relay.Value.kOff);
 		} else { //state == true 
 			spikes.compressorRelay.set(Relay.Value.kOn);
-		}
-
-		if (this.timerStarted == false) {
-			autoTimer.start();
-			this.timerStarted = true;
 		}
 
 		shooter.autoLoad();
