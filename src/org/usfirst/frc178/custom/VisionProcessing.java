@@ -1,10 +1,10 @@
 package org.usfirst.frc178.custom;
 
-import org.usfirst.frc178.components.*;
-import org.usfirst.frc178.devices.*;
-
 import edu.wpi.first.wpilibj.*;
 import java.io.IOException;
+
+import org.usfirst.frc178.components.*;
+import org.usfirst.frc178.devices.*;
 
 public class VisionProcessing implements Runnable {
 
@@ -41,7 +41,7 @@ public class VisionProcessing implements Runnable {
 			if (this.isConnected) {
 				String packet = this.oculusClient.request();
 				if (!packet.equals("")) {
-					System.out.println(packet);
+					System.out.println(parseY(packet));
 				}
 			}
 
@@ -83,6 +83,10 @@ public class VisionProcessing implements Runnable {
 		String str_x = oculusClient.request().substring(0, 5);
 		double x = Double.parseDouble(str_x);
 		drivetrain.turn(x);
+	}
+	
+	public String parseY(String oculusPoint) {
+		return oculusPoint.substring(oculusPoint.indexOf(',') + 1, oculusPoint.indexOf(')') - 1); //Double.parseDouble(oculusPoint.substring(oculusPoint.indexOf(',') + 1, oculusPoint.indexOf(')') - 1));
 	}
 
 }
