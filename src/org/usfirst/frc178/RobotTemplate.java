@@ -24,6 +24,7 @@ import org.usfirst.frc178.devices.Spike;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import org.usfirst.frc178.components.Indexer;
 
 public class RobotTemplate extends IterativeRobot  {
 
@@ -34,6 +35,7 @@ public class RobotTemplate extends IterativeRobot  {
 	// components
 	private Drivetrain drivetrain;
 	private Shooter shooter;
+	private Indexer indexer;
 
 	// custom
 	private AnalogPressure analogPressure;
@@ -80,6 +82,7 @@ public class RobotTemplate extends IterativeRobot  {
 		drivetrain = new Drivetrain(motors, humanControl, pneumatics);
 		shooter = new Shooter(motors, sensors, humanControl, pneumatics);
 		vision = new VisionProcessing(drivetrain, shooter, humanControl, oculusClient);
+		indexer = new Indexer(motors, sensors);
 
 		// Grab an instance of Watchdog to use
 		watchdog = Watchdog.getInstance();
@@ -93,6 +96,7 @@ public class RobotTemplate extends IterativeRobot  {
 		}
 
 		shooter.autoLoad();
+		indexer.start();
 
 		shooter.shooterStart();
 		Timer.delay(8);
@@ -115,6 +119,8 @@ public class RobotTemplate extends IterativeRobot  {
 
 		shooter.shooterStop();
 		motors.feederServo.set(0.5);
+
+		indexer.kill();
 	}
 
 	public void teleopInit() {
@@ -147,13 +153,6 @@ public class RobotTemplate extends IterativeRobot  {
 		dsout.println(DriverStationLCD.Line.kUser5, 1, "Encoder: " + sensors.shooterOneEncoder.getRate() + "\tVolts");
 
 		dsout.updateLCD();
-
-		if (humanControl.joystickMain.getRawButton(5)) { //manual override for compressor
-			System.out.println("on");
-			spikes.compressorRelay.set(Relay.Value.kOn);
-		} else {
-			spikes.compressorRelay.set(Relay.Value.kOff);
-		}
 
 		if (!sensors.pressureSwitch.getState()) { //runs contuniously
 			spikes.compressorRelay.set(Relay.Value.kOff);
