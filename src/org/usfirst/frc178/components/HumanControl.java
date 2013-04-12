@@ -1,5 +1,7 @@
 package org.usfirst.frc178.components;
 
+import org.usfirst.frc178.custom.VisionProcessing;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 public class HumanControl {
@@ -11,6 +13,7 @@ public class HumanControl {
 	private Drivetrain drivetrain;
 	private Shooter shooter;
 	private Elevator elevator;
+	private VisionProcessing vision;
 
 	private boolean isPressedA;
 
@@ -40,6 +43,10 @@ public class HumanControl {
 
 	public void setShooter(Shooter shooter) {
 		this.shooter = shooter;
+	}
+
+	public void setVision(VisionProcessing vision) {
+		this.vision = vision;
 	}
 
 	public void run() {
@@ -145,7 +152,7 @@ public class HumanControl {
 
 	private void autoAim() {
 		if (joystickAux.getRawButton(4)) { // Y button
-			// Auto-aim code here
+			vision.aimElevator();
 		}
 	}
 

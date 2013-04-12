@@ -99,6 +99,7 @@ public class RobotTemplate extends IterativeRobot  {
 		humanControl.setDrivetrain(drivetrain);
 		humanControl.setElevator(elevator);
 		humanControl.setShooter(shooter);
+		humanControl.setVision(vision);
 
 		// Grab an instance of Watchdog to use
 		watchdog = Watchdog.getInstance();

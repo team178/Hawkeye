@@ -13,7 +13,7 @@ public class VisionProcessing implements Runnable {
 	private OculusClient oculusClient;
 	private DriverStation driverStation;
 
-	private PIDController verticalPID;
+	private PIDController elevatorPID;
 
 	private boolean started;
 	private boolean isEnabled;
@@ -27,10 +27,16 @@ public class VisionProcessing implements Runnable {
 		this.oculusClient = oculusClient;
 		this.driverStation = DriverStation.getInstance();
 
-		this.verticalPID = new PIDController();
-
 		this.isEnabled = false;
 		this.isConnected = false;
+
+		double Kp = 0;
+		double Ki = 0;
+		double Kd = 0;
+
+		this.elevatorPID = new PIDController(Kp, Ki, Kd, oculusClient, elevator);
+		elevatorPID.setInputRange(-1, 1);
+		elevatorPID.setOutputRange(-1, 1);
 	}
 
 	public void start() {
@@ -54,6 +60,15 @@ public class VisionProcessing implements Runnable {
 			}
 
 		}
+	}
+
+	public void aimElevator() {
+		elevatorPID.enable();
+		elevatorPID.setSetpoint(0);
+	}
+
+	public void aimElevatorStop() {
+		elevatorPID.disable();
 	}
 
 	/**
