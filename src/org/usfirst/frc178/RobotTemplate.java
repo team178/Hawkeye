@@ -92,6 +92,11 @@ public class RobotTemplate extends IterativeRobot  {
 		vision = new VisionProcessing(drivetrain, shooter, oculusClient);
 		indexer = new Indexer(motors, sensors);
 
+		// Add components to HumanControl
+		humanControl.setDrivetrain(drivetrain);
+		humanControl.setShooter(shooter);
+		humanControl.setSensors(sensors);
+
 		// Grab an instance of Watchdog to use
 		watchdog = Watchdog.getInstance();
 	}
