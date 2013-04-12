@@ -8,30 +8,37 @@ import org.usfirst.frc178.components.*;
 public class VisionProcessing implements Runnable {
 
 	private Drivetrain drivetrain;
+	private Elevator elevator;
 	private Shooter shooter;
 	private OculusClient oculusClient;
 	private DriverStation driverStation;
 
 	private PIDController verticalPID;
 
+	private boolean started;
 	private boolean isEnabled;
 	private boolean isConnected;
 
-	public VisionProcessing(Drivetrain drivetrain, Shooter shooter, OculusClient oculusClient) {
+	public VisionProcessing(Drivetrain drivetrain, Elevator elevator,
+			Shooter shooter, OculusClient oculusClient) {
 		this.drivetrain = drivetrain;
+		this.elevator = elevator;
 		this.shooter = shooter;
 		this.oculusClient = oculusClient;
 		this.driverStation = DriverStation.getInstance();
 
+		this.verticalPID = new PIDController();
+
 		this.isEnabled = false;
 		this.isConnected = false;
-
-
 	}
 
 	public void start() {
-		Thread t = new Thread(this);
-		t.start();
+		if (!this.started) {
+			Thread t = new Thread(this);
+			t.start();
+			this.started = true;
+		}
 	}
 
 	public void run() {
@@ -69,7 +76,7 @@ public class VisionProcessing implements Runnable {
 				try {
 					this.oculusClient.connect();
 					this.isConnected = true;
-					System.out.println("Connect sucess");
+					System.out.println("Connect success");
 				} catch (IOException e) {
 					System.err.println("Connect failed");
 				}
