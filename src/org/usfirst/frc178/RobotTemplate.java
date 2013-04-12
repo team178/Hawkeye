@@ -2,6 +2,8 @@ package org.usfirst.frc178;
 
 // Components
 import org.usfirst.frc178.components.Drivetrain;
+import org.usfirst.frc178.components.Indexer;
+import org.usfirst.frc178.components.HumanControl;
 import org.usfirst.frc178.components.Shooter;
 
 // Custom
@@ -16,7 +18,6 @@ import org.usfirst.frc178.custom.VisionProcessing;
 import org.usfirst.frc178.dashboard.DashboardHigh;
 
 // Devices
-import org.usfirst.frc178.devices.HumanControl;
 import org.usfirst.frc178.devices.Motors;
 import org.usfirst.frc178.devices.Pneumatics;
 import org.usfirst.frc178.devices.Sensors;
@@ -24,7 +25,6 @@ import org.usfirst.frc178.devices.Spike;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import org.usfirst.frc178.components.Indexer;
 
 public class RobotTemplate extends IterativeRobot  {
 
@@ -32,10 +32,15 @@ public class RobotTemplate extends IterativeRobot  {
 	public static final String ip = "10.1.78.13";
 	public static final String port = "1780";
 
+	// Joysticks
+	private Joystick joystick;
+	private Joystick joystickAux;
+
 	// components
 	private Drivetrain drivetrain;
-	private Shooter shooter;
+	private HumanControl humanControl;
 	private Indexer indexer;
+	private Shooter shooter;
 
 	// custom
 	private AnalogPressure analogPressure;
@@ -48,7 +53,6 @@ public class RobotTemplate extends IterativeRobot  {
 	//private DashboardHigh dashboardHigh;
 
 	// devices
-	private HumanControl humanControl;
 	private Motors motors;
 	private Pneumatics pneumatics;
 	private Sensors sensors;
@@ -58,12 +62,16 @@ public class RobotTemplate extends IterativeRobot  {
 	private Watchdog watchdog;
 
 	public void robotInit() {
+		// Joysticks
+		joystick = new Joystick(1);
+		joystickAux = new Joystick(2);
+
 		// custom
 		oculusClient = new OculusClient(ip, port);
 		analogPressure = new AnalogPressure();
 
 		// devices
-		humanControl = new HumanControl();
+		humanControl = new HumanControl(joystick, joystickAux);
 		motors = new Motors();
 		pneumatics = new Pneumatics();
 		sensors = new Sensors();
@@ -79,9 +87,9 @@ public class RobotTemplate extends IterativeRobot  {
 		pneumatics.setBothGears(1);
 
 		// components
-		drivetrain = new Drivetrain(motors, humanControl, pneumatics);
-		shooter = new Shooter(motors, sensors, humanControl, pneumatics);
-		vision = new VisionProcessing(drivetrain, shooter, humanControl, oculusClient);
+		drivetrain = new Drivetrain(motors, pneumatics);
+		shooter = new Shooter(motors, sensors, pneumatics);
+		vision = new VisionProcessing(drivetrain, shooter, oculusClient);
 		indexer = new Indexer(motors, sensors);
 
 		// Grab an instance of Watchdog to use
@@ -95,31 +103,35 @@ public class RobotTemplate extends IterativeRobot  {
 			spikes.compressorRelay.set(Relay.Value.kOn);
 		}
 
-		shooter.autoLoad();
+		// Automatically load new frisbees
 		indexer.start();
 
-		shooter.shooterStart();
+		// Start the shooter
+		shooter.start();
 		Timer.delay(8);
 
+		// We're ready! Shot 1
 		pneumatics.frisbeeLoader.set(true);
 		Timer.delay(0.5);
 		pneumatics.frisbeeLoader.set(false);
 
 		Timer.delay(2);
 
+		// Shot 2
 		pneumatics.frisbeeLoader.set(true);
 		Timer.delay(0.5);
 		pneumatics.frisbeeLoader.set(false);
 
 		Timer.delay(2);
 
+		// Shot 3
 		pneumatics.frisbeeLoader.set(true);
 		Timer.delay(0.5);
 		pneumatics.frisbeeLoader.set(false);
 
-		shooter.shooterStop();
+		// We're done. Stop everything
+		shooter.stop();
 		motors.feederServo.set(0.5);
-
 		indexer.kill();
 	}
 
@@ -131,9 +143,8 @@ public class RobotTemplate extends IterativeRobot  {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		
-		drivetrain.drive();
-		shooter.run();
+
+		humanControl.run();
 
 		//mdsout.println(DriverStationLCD.Line.kUser1, 1, "Position: " + oculusClient.request());
 		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
@@ -162,14 +173,6 @@ public class RobotTemplate extends IterativeRobot  {
 
 		// We've survived another loop!
 		watchdog.feed();
-	}
-	
-
-
-	public void printLimitSwitches() {
-		System.out.print(sensors.elevationHighSwitch.getState() + "\t");
-		System.out.print(sensors.elevationLoadSwitch.getState() + "\t");
-		System.out.println(sensors.elevationLowSwitch.getState());
 	}
 
 }

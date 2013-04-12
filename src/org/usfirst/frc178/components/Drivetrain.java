@@ -5,15 +5,29 @@ import org.usfirst.frc178.devices.*;
 public class Drivetrain  {
 
 	private Motors motors;
-	private HumanControl humanControl;
 	private Pneumatics pneumatics;
 
-	private double robotX, robotY, robotZ;
+	private double speed;
 
-	public Drivetrain(Motors motors, HumanControl humanControl, Pneumatics pneumatics) {
+	public Drivetrain(Motors motors, Pneumatics pneumatics) {
 		this.motors = motors;
-		this.humanControl = humanControl;
 		this.pneumatics = pneumatics;
+
+		this.speed = 1;
+	}
+
+	/**
+	 * Set the driving speed
+	 */
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+
+	/**
+	 * Get the driving speed
+	 */
+	public double getSpeed() {
+		return this.speed;
 	}
 
 	/**
@@ -24,10 +38,24 @@ public class Drivetrain  {
 	}
 
 	/**
+	 * Sets the front left Victor
+	 */
+	public void setFrontLeft(double value) {
+		motors.frontLeft.set(value * this.speed);
+	}
+
+	/**
 	 * Gets the front right motor speed
 	 */
 	public double getFrontRight() {
 		return motors.frontRight.get();
+	}
+
+	/**
+	 * Sets the front right Victor
+	 */
+	public void setFrontRight(double value) {
+		motors.frontRight.set(value * this.speed);
 	}
 
 	/**
@@ -38,6 +66,13 @@ public class Drivetrain  {
 	}
 
 	/**
+	 * Sets the back left Victor
+	 */
+	public void setBackLeft(double value) {
+		motors.backLeft.set(value * this.speed);
+	}
+
+	/**
 	 * Gets the back right motor speed
 	 */
 	public double getBackRight() {
@@ -45,60 +80,25 @@ public class Drivetrain  {
 	}
 
 	/**
-	 * Drives the robot
-	 */
-	public void drive() {
-		// Shift to high gear when pressing trigger
-		pneumatics.shiftTo( humanControl.joystickMain.getTrigger() );
-		//pneumatics.shiftTo(humanControl.joystickMain.getRawButton(2));
-
-		robotX = -humanControl.joystickMain.getX();
-		robotY = -humanControl.joystickMain.getY();
-		robotZ = -humanControl.joystickMain.getTwist() * 0.5; // Twist should be less sensitive
-
-		// (-(Rotate) + (Forward Speed))
-		motors.frontLeft.set(  (-(robotZ) + (robotY)) );
-		motors.backLeft.set(   (-(robotZ) + (robotY)) );
-		motors.frontRight.set( (-(robotZ) - (robotY)) );
-		motors.backRight.set(  (-(robotZ) - (robotY)) );
-		
-		double halfSpeed = 0.625;
-		if(humanControl.joystickMain.getRawButton(2))
-		{
-		// (-(Rotate) + (Forward Speed))
-		motors.frontLeft.set(halfSpeed *  (-(robotZ) + (robotY)) );
-		motors.backLeft.set(halfSpeed *   (-(robotZ) + (robotY)) );
-		motors.frontRight.set(halfSpeed * (-(robotZ) - (robotY)) );
-		motors.backRight.set(halfSpeed *  (-(robotZ) - (robotY)) );
-		}
-	}
-
-	/**
-	 * Sets the front left Victor
-	 */
-	public void frontLeftSet(double value) {
-		motors.frontLeft.set(value);
-	}
-
-	/**
-	 * Sets the back left Victor
-	 */
-	public void backLeftSet(double value) {
-		motors.backLeft.set(value);
-	}
-
-	/**
-	 * Sets the front right Victor
-	 */
-	public void frontRightSet(double value) {
-		motors.frontRight.set(value);
-	}
-
-	/**
 	 * Sets the back right Victor
 	 */
-	public void backRightSet(double value) {
-		motors.backRight.set(value);
+	public void setBackRight(double value) {
+		motors.backRight.set(value * this.speed);
+	}
+
+	/**
+	 * Drives the robot
+	 */
+	public void drive(double moveX, double moveY, double moveZ) {
+		// (-(Rotate) + (Forward Speed))
+		setFrontLeft(  (moveZ - moveY) );
+		setBackLeft(   (moveZ - moveY) );
+		setFrontRight( (moveZ + moveY) );
+		setBackRight(  (moveZ + moveY) );
+	}
+
+	public void shiftTo(boolean gear) {
+		pneumatics.shiftTo(gear);
 	}
 
 	/**
@@ -114,14 +114,13 @@ public class Drivetrain  {
 	/**
 	 * Turn the robot
 	 */
-	public void turn(double robotZ) {
-		System.out.println(robotZ);
-		motors.frontLeft.set(robotZ);
-		motors.backLeft.set(robotZ);
-		motors.frontRight.set(robotZ);
-		motors.backRight.set(robotZ);
+	public void turn(double moveZ) {
+		setFrontLeft(moveZ);
+		setBackLeft(moveZ);
+		setFrontRight(moveZ);
+		setBackRight(moveZ);
 	}
-	
+
 	//Eric's auto-aim code
 	public double proportaionalTurnControl(double setPoint) {
 		return (setPoint * setPoint * setPoint);  //setPoint ^ 3

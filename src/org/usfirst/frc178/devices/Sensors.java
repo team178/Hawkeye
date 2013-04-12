@@ -51,4 +51,10 @@ public class Sensors
 		return (scaledOutput * scaledOutput * scaledOutput);  //scaledOutput ^ 3
 	}
 
+	public void printLimitSwitches() {
+		System.out.print(elevationHighSwitch.getState() + "\t");
+		System.out.print(elevationLoadSwitch.getState() + "\t");
+		System.out.println(elevationLowSwitch.getState());
+	}
+
 }

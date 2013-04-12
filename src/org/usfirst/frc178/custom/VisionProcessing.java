@@ -4,13 +4,11 @@ import edu.wpi.first.wpilibj.*;
 import java.io.IOException;
 
 import org.usfirst.frc178.components.*;
-import org.usfirst.frc178.devices.*;
 
 public class VisionProcessing implements Runnable {
 
 	private Drivetrain drivetrain;
 	private Shooter shooter;
-	private HumanControl humanControl;
 	private OculusClient oculusClient;
 	private DriverStation driverStation;
 
@@ -19,10 +17,9 @@ public class VisionProcessing implements Runnable {
 	private boolean isEnabled;
 	private boolean isConnected;
 
-	public VisionProcessing(Drivetrain drivetrain, Shooter shooter, HumanControl humanControl, OculusClient oculusClient) {
+	public VisionProcessing(Drivetrain drivetrain, Shooter shooter, OculusClient oculusClient) {
 		this.drivetrain = drivetrain;
 		this.shooter = shooter;
-		this.humanControl = humanControl;
 		this.oculusClient = oculusClient;
 		this.driverStation = DriverStation.getInstance();
 
