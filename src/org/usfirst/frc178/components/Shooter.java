@@ -50,18 +50,6 @@ public class Shooter {
 		}
 	}
 
-	public void elevate(double speed) {
-		motors.elevator.set(speed);
-	}
-
-	public void lower(double speed) {
-		motors.elevator.set(-speed);
-	}
-
-	public void elevatorStop() {
-		motors.elevator.set(0.0);
-	}
-
 	public void engageBreech() {
 		pneumatics.frisbeeLoader.set(true);
 	}
