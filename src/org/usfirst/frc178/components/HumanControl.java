@@ -2,8 +2,6 @@ package org.usfirst.frc178.components;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-import org.usfirst.frc178.devices.Sensors;
-
 public class HumanControl {
 
 	private Joystick joystick;
@@ -12,7 +10,7 @@ public class HumanControl {
 
 	private Drivetrain drivetrain;
 	private Shooter shooter;
-	private Sensors sensors;
+	private Elevator elevator;
 
 	private boolean isPressedA;
 
@@ -36,12 +34,12 @@ public class HumanControl {
 		this.drivetrain = drivetrain;
 	}
 
-	public void setShooter(Shooter shooter) {
-		this.shooter = shooter;
+	public void setElevator(Elevator elevator) {
+		this.elevator = elevator;
 	}
 
-	public void setSensors(Sensors sensors) {
-		this.sensors = sensors;
+	public void setShooter(Shooter shooter) {
+		this.shooter = shooter;
 	}
 
 	public void run() {
@@ -109,15 +107,11 @@ public class HumanControl {
 	 */
 	private void shooterElevator() {
 		if (joystick.getRawButton(5)) {
-			if (!sensors.elevationLowSwitch.getState()) {
-				shooter.elevate(-1.0); // down
-			}
+			elevator.lower(1.0); // down
 		} else if (joystick.getRawButton(6)) {
-			if (!sensors.elevationHighSwitch.getState()) {
-				shooter.elevate(1.0); // up
-			}
+			elevator.raise(1.0); // up
 		} else {
-			shooter.elevatorStop();
+			elevator.stop();
 		}
 	}
 

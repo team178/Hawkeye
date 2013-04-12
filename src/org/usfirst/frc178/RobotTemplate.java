@@ -2,6 +2,7 @@ package org.usfirst.frc178;
 
 // Components
 import org.usfirst.frc178.components.Drivetrain;
+import org.usfirst.frc178.components.Elevator;
 import org.usfirst.frc178.components.Indexer;
 import org.usfirst.frc178.components.HumanControl;
 import org.usfirst.frc178.components.Shooter;
@@ -38,6 +39,7 @@ public class RobotTemplate extends IterativeRobot  {
 
 	// components
 	private Drivetrain drivetrain;
+	private Elevator elevator;
 	private HumanControl humanControl;
 	private Indexer indexer;
 	private Shooter shooter;
@@ -88,14 +90,15 @@ public class RobotTemplate extends IterativeRobot  {
 
 		// components
 		drivetrain = new Drivetrain(motors, pneumatics);
+		elevator = new Elevator(motors, sensors);
 		shooter = new Shooter(motors, sensors, pneumatics);
-		vision = new VisionProcessing(drivetrain, shooter, oculusClient);
+		vision = new VisionProcessing(drivetrain, elevator, shooter, oculusClient);
 		indexer = new Indexer(motors, sensors);
 
 		// Add components to HumanControl
 		humanControl.setDrivetrain(drivetrain);
+		humanControl.setElevator(elevator);
 		humanControl.setShooter(shooter);
-		humanControl.setSensors(sensors);
 
 		// Grab an instance of Watchdog to use
 		watchdog = Watchdog.getInstance();
