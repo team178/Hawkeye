@@ -30,7 +30,7 @@ public class VisionProcessing implements Runnable {
 		this.isEnabled = false;
 		this.isConnected = false;
 
-		double Kp = 0;
+		double Kp = 2;
 		double Ki = 0;
 		double Kd = 0;
 
