@@ -66,6 +66,7 @@ public class HumanControl {
 		this.shooter();
 		this.breech();
 		this.indexer();
+		this.autoAim();
 		this.hopper();
 	}
 
