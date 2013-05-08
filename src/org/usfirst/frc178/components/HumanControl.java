@@ -114,9 +114,9 @@ public class HumanControl {
 	 * Adjust the shooter elevator. Going to floor 13.
 	 */
 	private void shooterElevator() {
-		if (joystick.getRawButton(5)) {
+		if (joystick.getRawButton(3)) {
 			elevator.lower(0.5); // down
-		} else if (joystick.getRawButton(6)) {
+		} else if (joystick.getRawButton(4)) {
 			elevator.raise(0.5); // up
 		} else {
 			if (joystick.getRawButton(5)) {				
