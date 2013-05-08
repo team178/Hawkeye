@@ -19,7 +19,7 @@ public class Elevator implements PIDOutput {
 			throw new IllegalArgumentException();
 		}
 
-		if (!sensors.elevationLowSwitch.getState()) {
+		if (!sensors.elevationHighSwitch.getState()) {
 			motors.elevator.set(speed);
 		} else {
 			stop();
@@ -31,7 +31,7 @@ public class Elevator implements PIDOutput {
 			throw new IllegalArgumentException();
 		}
 
-		if (!sensors.elevationHighSwitch.getState()) {
+		if (!sensors.elevationLowSwitch.getState()) {
 			motors.elevator.set(-speed);
 		} else {
 			stop();
@@ -48,6 +48,7 @@ public class Elevator implements PIDOutput {
 		} else {
 			raise(output);
 		}
+		System.out.println("pidWrite: " + output);
 	}
 
 }

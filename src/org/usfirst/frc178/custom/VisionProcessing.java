@@ -54,17 +54,21 @@ public class VisionProcessing implements Runnable {
 
 			if (this.isConnected) {
 				String packet = this.oculusClient.request();
+				System.out.println(packet);
+				/* 
 				if (!packet.equals("")) {
 					System.out.println(parseY(packet));
 				}
+				*/
 			}
 
 		}
 	}
 
 	public void aimElevator() {
-		elevatorPID.enable();
-		elevatorPID.setSetpoint(0);
+		/*elevatorPID.enable();
+		elevatorPID.setSetpoint(0);*/
+		elevator.pidWrite( oculusClient.pidGet() );
 	}
 
 	public void aimElevatorStop() {

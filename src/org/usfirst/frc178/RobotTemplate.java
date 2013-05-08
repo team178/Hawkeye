@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 public class RobotTemplate extends IterativeRobot  {
 
 	// Constants
-	public static final String ip = "10.1.78.13";
+	public static final String ip = "10.1.78.24";
 	public static final String port = "1780";
 
 	// Joysticks

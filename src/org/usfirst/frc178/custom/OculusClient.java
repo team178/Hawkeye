@@ -72,7 +72,7 @@ public class OculusClient implements PIDSource {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-
+System.out.println("result");
 		return result;
 	}
 
@@ -81,7 +81,8 @@ public class OculusClient implements PIDSource {
 		int beginIndex = request.indexOf(',') + 1;
 		int endIndex = request.length();
 		String offsetY = request.substring(beginIndex, endIndex);
-		
+
+		System.out.println(offsetY);
 		return Double.parseDouble(offsetY);
 	}
 
