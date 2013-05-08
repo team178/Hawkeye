@@ -145,7 +145,7 @@ public class RobotTemplate extends IterativeRobot  {
 	}
 
 	public void teleopInit() {
-		vision.start();
+		//vision.start();
 	}
 
 	/**

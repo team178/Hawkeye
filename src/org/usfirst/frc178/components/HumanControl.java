@@ -115,9 +115,9 @@ public class HumanControl {
 	 */
 	private void shooterElevator() {
 		if (joystick.getRawButton(3)) {
-			elevator.lower(0.5); // down
+			elevator.lower(1); // down
 		} else if (joystick.getRawButton(4)) {
-			elevator.raise(0.5); // up
+			elevator.raise(1); // up
 		} else {
 			if (joystick.getRawButton(5)) {				
 				elevator.lower(0.5); // down
