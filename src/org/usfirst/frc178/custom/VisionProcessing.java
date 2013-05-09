@@ -68,7 +68,9 @@ public class VisionProcessing implements Runnable {
 	public void aimElevator() {
 		/*elevatorPID.enable();
 		elevatorPID.setSetpoint(0);*/
-		elevator.pidWrite( oculusClient.pidGet() );
+		if (this.isEnabled) {
+			elevator.pidWrite( oculusClient.pidGet() );
+		}
 	}
 
 	public void aimElevatorStop() {
