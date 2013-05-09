@@ -72,7 +72,7 @@ public class OculusClient implements PIDSource {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-System.out.println("result");
+		System.out.println("result");
 		return result;
 	}
 
