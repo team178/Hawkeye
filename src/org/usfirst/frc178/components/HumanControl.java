@@ -158,9 +158,9 @@ public class HumanControl {
 	}
 
 	private void autoAim() {
-		if (joystickAux.getRawButton(4)) { // Y button
+		/*if (joystickAux.getRawButton(4)) { // Y button
 			vision.aimElevator();
-		}
+		*/
 	}
 
 	private void hopper() {
