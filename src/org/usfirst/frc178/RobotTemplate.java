@@ -170,7 +170,7 @@ public class RobotTemplate extends IterativeRobot  {
 		} else {
 			dsout.println(DriverStationLCD.Line.kUser4, 1, "Shooter: Off");
 		}
-		dsout.println(DriverStationLCD.Line.kUser5, 1, "Encoder: " + sensors.shooterOneEncoder.getRate() + "\tVolts");
+		dsout.println(DriverStationLCD.Line.kUser5, 1, "Encoder: " + sensors.shooterOneEncoder.getRate() + "\tRPM");
 
 		dsout.updateLCD();
 
