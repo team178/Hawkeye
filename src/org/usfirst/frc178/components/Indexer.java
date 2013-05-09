@@ -31,6 +31,7 @@ public class Indexer implements Runnable{
 
 	public void start() {
 		t = new Thread(this);
+		this.kill = false;
 		t.start();
 	}
 
@@ -41,7 +42,6 @@ public class Indexer implements Runnable{
 	}
 
 	public void autoLoad() {
-		//sensors.printPhotocells();
 		if (sensors.shooterPhoto.analog.getAverageValue() > sensors.PHOTOCELL_THRESHOLD) {
 			motors.feederServo.set(0.00);
 		} else {
