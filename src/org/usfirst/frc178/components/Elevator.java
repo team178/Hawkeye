@@ -43,12 +43,12 @@ public class Elevator implements PIDOutput {
 	}
 
 	public void pidWrite(double output) {
+		System.out.println("Elevator: " + output);
 		if (output < 0) {
-			lower(-output);
-		} else {
 			raise(output);
+		} else {
+			lower(-output);
 		}
-		System.out.println("pidWrite: " + output);
 	}
 
 }

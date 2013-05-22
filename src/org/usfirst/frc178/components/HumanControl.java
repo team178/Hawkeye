@@ -15,6 +15,7 @@ public class HumanControl {
 	private Elevator elevator;
 	private VisionProcessing vision;
 
+	private boolean isElevatorMoving = false;
 	private boolean isPressedA;
 
 	public HumanControl(Joystick joystick) {
@@ -115,16 +116,23 @@ public class HumanControl {
 	 */
 	private void shooterElevator() {
 		if (joystick.getRawButton(3)) {
-			elevator.lower(1); // down
+			this.isElevatorMoving = true;
+			elevator.lower(1.0); // down
 		} else if (joystick.getRawButton(4)) {
-			elevator.raise(1); // up
+			this.isElevatorMoving = true;
+			elevator.raise(1.0); // up
 		} else {
-			if (joystick.getRawButton(5)) {				
+			if (joystick.getRawButton(5)) {
+				this.isElevatorMoving = true;
 				elevator.lower(0.5); // down
 			} else if (joystick.getRawButton(6)) {
-				elevator.raise(0.5); //up
-			} else {
-				elevator.stop();
+				this.isElevatorMoving = true;
+				elevator.raise(0.5); // up
+			} else {	
+				if (this.isElevatorMoving) {
+					this.isElevatorMoving = false;
+					elevator.stop();
+				}
 			}
 		}
 	}
@@ -158,9 +166,9 @@ public class HumanControl {
 	}
 
 	private void autoAim() {
-		/*if (joystickAux.getRawButton(4)) { // Y button
+		if (joystickAux.getRawButton(4)) { // Y button
 			vision.aimElevator();
-		*/
+		}
 	}
 
 	private void hopper() {
