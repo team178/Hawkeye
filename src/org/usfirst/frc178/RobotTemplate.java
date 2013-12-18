@@ -37,6 +37,7 @@ public class RobotTemplate extends IterativeRobot  {
 	// Joysticks
 	private Joystick joystick;
 	private Joystick joystickAux;
+	private Joystick joystickKiddy;
 
 	// components
 	private Drivetrain drivetrain;
@@ -68,13 +69,15 @@ public class RobotTemplate extends IterativeRobot  {
 		// Joysticks
 		joystick = new Joystick(1);
 		joystickAux = new Joystick(2);
+		joystickKiddy = new Joystick(3);
 
 		// custom
 		oculusClient = new OculusClient(ip, port);
 		analogPressure = new AnalogPressure();
 
 		// devices
-		humanControl = new HumanControl(joystick, joystickAux);
+		//humanControl = new HumanControl(joystick, joystickAux); // THIS IS PRODUCTION CODE
+		humanControl = new HumanControl(joystick, joystickAux,joystickKiddy); 
 		motors = new Motors();
 		pneumatics = new Pneumatics();
 		sensors = new Sensors();
@@ -132,7 +135,7 @@ public class RobotTemplate extends IterativeRobot  {
 		Timer.delay(0.5);
 		pneumatics.frisbeeLoader.set(false);
 
-		Timer.delay(2);
+		Timer.delay(1.7);
 
 		// Shot 3
 		pneumatics.frisbeeLoader.set(true);
@@ -147,33 +150,17 @@ public class RobotTemplate extends IterativeRobot  {
 
 	public void teleopInit() {
 		vision.start();
+		shooter.retractHopper();
+		shooter.stop();
 	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
+	
 	public void teleopPeriodic() {
 
 		humanControl.run();
-
-		//mdsout.println(DriverStationLCD.Line.kUser1, 1, "Position: " + oculusClient.request());
-		dsout.println(DriverStationLCD.Line.kUser2, 1, "Volts: " + analogPressure.getVoltage());
-		dsout.println(DriverStationLCD.Line.kUser1, 1, "Pressure: " + sensors.pressureSwitch.getState());
-
-		if (sensors.elevationLoadSwitch.getState()) {
-			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch: Presssed");
-		} else {
-			dsout.println(DriverStationLCD.Line.kUser3, 1, "Load switch: Off     ");
-		}
-
-		if (shooter.isShooterOn()) {
-			dsout.println(DriverStationLCD.Line.kUser4, 1, "Shooter: On ");
-		} else {
-			dsout.println(DriverStationLCD.Line.kUser4, 1, "Shooter: Off");
-		}
-		dsout.println(DriverStationLCD.Line.kUser5, 1, "Encoder: " + sensors.shooterOneEncoder.getRate() + "\tRPM");
-
-		dsout.updateLCD();
 
 		if (!sensors.pressureSwitch.getState()) { //runs contuniously
 			spikes.compressorRelay.set(Relay.Value.kOff);

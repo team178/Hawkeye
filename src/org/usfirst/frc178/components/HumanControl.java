@@ -59,7 +59,6 @@ public class HumanControl {
 		this.drive();
 		this.driveDiminished();
 		this.gearShifting();
-
 		this.shooterElevator();
 	}
 
@@ -69,26 +68,40 @@ public class HumanControl {
 		this.indexer();
 		this.autoAim();
 		this.hopper();
+		this.bangbang();
 	}
 
 	/**
 	 * Grab movement values from joystick controller
 	 */
-	private void drive() {
-		double moveX = joystick.getX();
-		double moveY = joystick.getY();
-		double moveZ = joystick.getTwist() * 0.5;
+	private void drive(){
+		boolean inKiddyMode = false;
 
-		drivetrain.drive(moveX, moveY, moveZ);
+		if (inKiddyMode == true){
+			driveKiddy();
+		} else {
+			double moveX = joystick.getX();
+			double moveY = joystick.getY();
+			double moveZ = joystick.getTwist() * 0.5;
+			drivetrain.drive(moveX, moveY, moveZ);
+		}
 	}
 
 	/**
-	 * Drive the robot with the kiddy controller. Not being used yet.
+	 * Drive the robot with the kiddy controller.
 	 */
 	private void driveKiddy() {
-		double moveX = joystickKiddy.getX();
-		double moveY = joystickKiddy.getY();
-		double moveZ = joystickKiddy.getTwist() * 0.5;
+		double moveX, moveY, moveZ;
+
+		if (joystick.getTrigger()) {
+			moveX = joystick.getX();
+			moveY = joystick.getY();
+			moveZ = joystick.getTwist() * 0.5;
+		} else {
+			moveX = joystickKiddy.getX() * 0.5;
+			moveY = joystickKiddy.getY() * 0.5;
+			moveZ = joystickKiddy.getTwist() * 0.4;
+		}
 
 		drivetrain.drive(moveX, moveY, moveZ);
 	}
@@ -116,24 +129,28 @@ public class HumanControl {
 	 */
 	private void shooterElevator() {
 		if (joystick.getRawButton(3)) {
-			this.isElevatorMoving = true;
+			//this.isElevatorMoving = true;
 			elevator.lower(1.0); // down
 		} else if (joystick.getRawButton(4)) {
-			this.isElevatorMoving = true;
+			//this.isElevatorMoving = true;
 			elevator.raise(1.0); // up
+		} else if (joystick.getRawButton(5)) {
+			//this.isElevatorMoving = true;
+			elevator.lower(0.5); // down
+		} else if (joystick.getRawButton(6)) {
+			//this.isElevatorMoving = true;
+			elevator.raise(0.5); // up
+		} else /*if (this.isElevatorMoving)*/ {
+			//this.isElevatorMoving = false;
+			elevator.stop();
+		}
+	
+	}
+	private void bangbang() {
+		if (joystick.getRawButton(11)) {
+			shooter.bangbang();
 		} else {
-			if (joystick.getRawButton(5)) {
-				this.isElevatorMoving = true;
-				elevator.lower(0.5); // down
-			} else if (joystick.getRawButton(6)) {
-				this.isElevatorMoving = true;
-				elevator.raise(0.5); // up
-			} else {	
-				if (this.isElevatorMoving) {
-					this.isElevatorMoving = false;
-					elevator.stop();
-				}
-			}
+			//shooter.stop();
 		}
 	}
 
@@ -161,7 +178,7 @@ public class HumanControl {
 		if (joystickAux.getRawButton(3)) { // X button
 			shooter.runIndexer();
 		} else {
-			shooter.stopIndexer();
+			shooter.reverseIndexer();
 		}
 	}
 

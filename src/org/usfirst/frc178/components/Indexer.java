@@ -42,11 +42,12 @@ public class Indexer implements Runnable{
 
 	public void autoLoad() {
 		//sensors.printPhotocells();
-		if (sensors.shooterPhoto.analog.getAverageValue() > sensors.PHOTOCELL_THRESHOLD) {
+		/*if (sensors.shooterPhoto.analog.getAverageValue() > sensors.PHOTOCELL_THRESHOLD) {
 			motors.feederServo.set(0.00);
 		} else {
 			motors.feederServo.set(0.75);
-		}
+		}*/
+		
 	}
 
 	public void kill() {

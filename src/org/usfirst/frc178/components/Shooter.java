@@ -22,7 +22,8 @@ public class Shooter {
 		this.pneumatics = pneumatics;
 		this.motors = motors;
 		this.sensors = sensors;
-
+		
+		this.sensors.shooterOneEncoder.start();
 		this.isShooterOn = false;
 	}
 
@@ -62,8 +63,8 @@ public class Shooter {
 		motors.feederServo.set(0.0);
 	}
 
-	public void stopIndexer() {
-		motors.feederServo.set(0.5);
+	public void reverseIndexer() {
+		motors.feederServo.set(0.75);
 	}
 
 	public void extendHopper() {
@@ -74,6 +75,18 @@ public class Shooter {
 		pneumatics.hopper.set(false);
 	}
 
+	public void bangbang() {
+		double rate = sensors.shooterOneEncoder.getRate();
+		System.out.println(rate);
+		if (rate > -40) {
+			motors.shooterOne.set(-1.0);
+			motors.shooterTwo.set(-1.0);
+		} else {
+			motors.shooterOne.set(0.0);
+			motors.shooterTwo.set(0.0);
+		}
+	}
+	
 	public void setExponentialElevator(double elevationSpeed) {
 		double speed = 0;
 		if (elevationSpeed > 0) {

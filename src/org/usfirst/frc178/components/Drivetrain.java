@@ -91,6 +91,7 @@ public class Drivetrain  {
 	 */
 	public void drive(double moveX, double moveY, double moveZ) {
 		// (-(Rotate) + (Forward Speed))
+		moveZ = moveZ * 1.5;
 		setFrontLeft(  (moveZ - moveY) );
 		setBackLeft(   (moveZ - moveY) );
 		setFrontRight( (moveZ + moveY) );
